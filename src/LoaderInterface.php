@@ -14,9 +14,6 @@ namespace Hautelook\AliceBundle;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
-/**
- * @author Théo FIDRY <theo.fidry@gmail.com>
- */
 interface LoaderInterface
 {
     /**

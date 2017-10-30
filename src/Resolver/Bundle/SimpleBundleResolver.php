@@ -16,15 +16,12 @@ use Hautelook\AliceBundle\Exception\Resolver\BundleNotFoundException;
 use Nelmio\Alice\IsAServiceTrait;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
-/**
- * @author Théo FIDRY <theo.fidry@gmail.com>
- */
 final class SimpleBundleResolver implements BundleResolverInterface
 {
     use IsAServiceTrait;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function resolveBundles(Application $application, array $names)
     {

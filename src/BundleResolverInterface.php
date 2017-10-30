@@ -15,9 +15,6 @@ use Hautelook\AliceBundle\Exception\Resolver\BundleNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
-/**
- * @author Théo FIDRY <theo.fidry@gmail.com>
- */
 interface BundleResolverInterface
 {
     /**

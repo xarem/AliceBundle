@@ -17,9 +17,6 @@ use Fidry\AliceDataFixtures\FileResolverInterface;
 use Nelmio\Alice\IsAServiceTrait;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-/**
- * @author Théo FIDRY <theo.fidry@gmail.com>
- */
 final class KernelFileResolver implements FileResolverInterface
 {
     use IsAServiceTrait;

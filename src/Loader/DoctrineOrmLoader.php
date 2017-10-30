@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Hautelook\AliceBundle package.
+ *
+ * (c) Baldur Rensch <brensch@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Hautelook\AliceBundle\Loader;
 
 use Doctrine\DBAL\Sharding\PoolingShardConnection;
@@ -27,24 +36,9 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
 {
     use IsAServiceTrait;
 
-    /**
-     * @var BundleResolverInterface
-     */
     private $bundleResolver;
-
-    /**
-     * @var FixtureLocatorInterface
-     */
     private $fixtureLocator;
-
-    /**
-     * @var LoaderInterface|PersisterAwareInterface
-     */
     private $loader;
-
-    /**
-     * @var LoggerInterface
-     */
     private $logger;
 
     public function __construct(
@@ -140,7 +134,7 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
      * @param bool                                    $append
      * @param bool|null                               $purgeWithTruncate
      *
-     * @return \object[]
+     * @return object[]
      */
     private function loadFixtures(
         LoaderInterface $loader,

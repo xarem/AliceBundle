@@ -13,9 +13,6 @@ namespace Hautelook\AliceBundle;
 
 use Psr\Log\LoggerInterface;
 
-/**
- * @author Théo FIDRY <theo.fidry@gmail.com>
- */
 interface LoggerAwareInterface
 {
     /**

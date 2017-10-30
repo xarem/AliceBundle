@@ -28,8 +28,6 @@ use Symfony\Component\Console\Output\NullOutput;
 
 /**
  * @covers \Hautelook\AliceBundle\Console\Command\Doctrine\DoctrineOrmLoadDataFixturesCommand
- *
- * @author Théo FIDRY <theo.fidry@gmail.com>
  */
 class LoadDataFixturesCommandTest extends TestCase
 {

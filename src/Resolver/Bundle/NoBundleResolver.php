@@ -17,16 +17,11 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 
 /**
  * Decorates another resolver to return all bundles if no bundle requested.
- *
- * @author Théo FIDRY <theo.fidry@gmail.com>
  */
 final class NoBundleResolver implements BundleResolverInterface
 {
     use IsAServiceTrait;
 
-    /**
-     * @var BundleResolverInterface
-     */
     private $decoratedResolver;
 
     public function __construct(BundleResolverInterface $decoratedResolver)

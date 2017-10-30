@@ -17,12 +17,11 @@ use Hautelook\AliceBundle\Resolver\ResolverKernel;
 use Hautelook\AliceBundle\Resolver\Bundle\NoBundleResolver;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
 /**
  * @covers \Hautelook\AliceBundle\Resolver\NoBundleResolver
- *
- * @author Théo FIDRY <theo.fidry@gmail.com>
  */
 class NoBundleResolverTest extends TestCase
 {
@@ -31,12 +30,9 @@ class NoBundleResolverTest extends TestCase
         $this->assertTrue(is_a(NoBundleResolver::class, BundleResolverInterface::class, true));
     }
 
-    /**
-     * @expectedException \DomainException
-     */
     public function testIsNotClonable()
     {
-        clone new NoBundleResolver(new FakeBundleResolver());
+        $this->assertFalse((new ReflectionClass(NoBundleResolver::class))->isCloneable());
     }
 
     public function testReturnsAllBundlesIfNoBundleIsRequested()

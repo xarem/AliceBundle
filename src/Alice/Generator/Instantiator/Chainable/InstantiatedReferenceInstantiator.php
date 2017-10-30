@@ -25,16 +25,10 @@ use Nelmio\Alice\Throwable\Exception\Generator\Instantiator\InstantiationExcepti
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * @author Théo FIDRY <theo.fidry@gmail.com>
- */
 final class InstantiatedReferenceInstantiator implements ChainableInstantiatorInterface, ContainerAwareInterface
 {
     use IsAServiceTrait;
 
-    /**
-     * @var ContainerInterface|null
-     */
     private $container;
 
     /**

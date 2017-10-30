@@ -16,8 +16,6 @@ use Symfony\Component\Config\Definition\Processor;
 
 /**
  * @covers \Hautelook\AliceBundle\DependencyInjection\Configuration
- *
- * @author Théo FIDRY <theo.fidry@gmail.com>
  */
 class ConfigurationTest extends TestCase
 {

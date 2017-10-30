@@ -15,21 +15,11 @@ use Hautelook\AliceBundle\FixtureLocatorInterface;
 use Nelmio\Alice\IsAServiceTrait;
 use Symfony\Component\Finder\Finder as SymfonyFinder;
 
-/**
- * @author Théo FIDRY <theo.fidry@gmail.com>
- */
 final class EnvDirectoryLocator implements FixtureLocatorInterface
 {
     use IsAServiceTrait;
 
-    /**
-     * @var string
-     */
     private $fixturesPath;
-
-    /**
-     * @var string|null
-     */
     private $projectDir;
 
     /**

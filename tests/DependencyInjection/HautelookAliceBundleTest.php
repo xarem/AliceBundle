@@ -21,8 +21,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
  * @covers \Hautelook\AliceBundle\DependencyInjection\HautelookAliceBundle
  * @covers \Hautelook\AliceBundle\DependencyInjection\Configuration
  * @covers \Hautelook\AliceBundle\DependencyInjection\HautelookAliceExtension
- *
- * @author Théo FIDRY <theo.fidry@gmail.com>
  */
 class HautelookAliceBundleTest extends TestCase
 {

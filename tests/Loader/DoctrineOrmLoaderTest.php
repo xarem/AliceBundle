@@ -19,11 +19,10 @@ use Hautelook\AliceBundle\Logger\FakeLogger;
 use Hautelook\AliceBundle\LoggerAwareInterface;
 use Hautelook\AliceBundle\Resolver\FakeBundleResolver;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 /**
  * @covers \Hautelook\AliceBundle\Loader\DoctrineOrmLoader
- *
- * @author Théo FIDRY <theo.fidry@gmail.com>
  */
 class DoctrineOrmLoaderTest extends TestCase
 {
@@ -37,12 +36,9 @@ class DoctrineOrmLoaderTest extends TestCase
         $this->assertTrue(is_a(DoctrineOrmLoader::class, LoggerAwareInterface::class, true));
     }
 
-    /**
-     * @expectedException \DomainException
-     */
     public function testIsNotClonable()
     {
-        clone new DoctrineOrmLoader(new FakeBundleResolver(), new FakeFixtureLocator(), new FakeLoaderPersisterAware(), new FakeLogger());
+        $this->assertFalse((new ReflectionClass(DoctrineOrmLoader::class))->isCloneable());
     }
 
     /**

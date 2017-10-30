@@ -1,7 +1,6 @@
 language: php
 
 php:
-  - '7.0'
   - '7.1'
   - nightly
 
@@ -27,19 +26,19 @@ services:
 matrix:
   fast_finish: true
   include:
-    - php: '7.0'
+    - php: '7.1'
       env:
         - COMPOSER_FLAGS="--prefer-lowest"
         - COVERAGE="true"
         - PHPUNIT_FLAGS="--stop-on-failure --verbose --coverage-text --coverage-clover=coverage.xml"
-        - SYMFONY_VERSION="~3.1.0"
+        - SYMFONY_VERSION="~3.3.10"
     - php: '7.1'
-      env: SYMFONY_VERSION='~3.2.0'
+      env: SYMFONY_VERSION='~3.3'
     - php: '7.1'
-      env: SYMFONY_VERSION='~3.3.0'
+      env: SYMFONY_VERSION='~3.4.0@dev'
   allow_failures:
     - php: nightly
-    - php: '7.2'
+    - env: SYMFONY_VERSION='~3.4.0@dev'
 
 before_install:
   - set -eo pipefail
@@ -56,11 +55,11 @@ before_install:
 
       if [ ! -e $OCULAR_BIN ]; then
           wget https://scrutinizer-ci.com/ocular.phar -O $OCULAR_BIN
+          chmod +x $OCULAR_BIN
           alias ocular="php $OCULAR_BIN"
       fi
     else
-      PHPUNIT_BIN="php -d zend.enable_gc=0
-       $PHPUNIT_BIN"
+      PHPUNIT_BIN="php -d zend.enable_gc=0 $PHPUNIT_BIN"
     fi
   - mysql -u root -e 'create database hautelook_alice_bundle;'
 
@@ -72,7 +71,7 @@ script: $PHPUNIT_BIN -c $PHPUNIT_CONFIG $PHPUNIT_FLAGS
 after_script:
   - |
     if [ -n "$COVERAGE" ]; then
-      ocular code-coverage:upload --format=php-clover coverage.xml
+      $OCULAR_BIN code-coverage:upload --format=php-clover coverage.xml
     fi
 
 notifications:

@@ -17,11 +17,10 @@ use Hautelook\AliceBundle\Locator\EnvDirectoryLocator\DummyBundle\DummyBundle;
 use Hautelook\AliceBundle\Locator\EnvDirectoryLocator\EmptyBundle\EmptyBundle;
 use Hautelook\AliceBundle\Locator\EnvDirectoryLocator\OneMoreDummyBundle\OneMoreDummyBundle;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 /**
  * @covers \Hautelook\AliceBundle\Locator\EnvDirectoryLocator
- *
- * @author Théo FIDRY <theo.fidry@gmail.com>
  */
 class EnvDirectoryLocatorTest extends TestCase
 {
@@ -30,12 +29,9 @@ class EnvDirectoryLocatorTest extends TestCase
         $this->assertTrue(is_a(EnvDirectoryLocator::class, FixtureLocatorInterface::class, true));
     }
 
-    /**
-     * @expectedException \DomainException
-     */
     public function testIsNotClonable()
     {
-        clone new EnvDirectoryLocator('');
+        $this->assertFalse((new ReflectionClass(EnvDirectoryLocator::class))->isCloneable());
     }
 
     /**

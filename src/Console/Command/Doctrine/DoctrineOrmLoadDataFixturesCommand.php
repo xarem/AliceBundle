@@ -13,6 +13,7 @@ namespace Hautelook\AliceBundle\Console\Command\Doctrine;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Hautelook\AliceBundle\LoaderInterface as AliceBundleLoaderInterface;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application as FrameworkBundleConsoleApplication;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Command\Command;
@@ -24,8 +25,6 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * Command used to load the fixtures.
- *
- * @author Théo FIDRY <theo.fidry@gmail.com>
  */
 final class DoctrineOrmLoadDataFixturesCommand extends Command
 {
@@ -109,7 +108,7 @@ final class DoctrineOrmLoadDataFixturesCommand extends Command
     /**
      * {@inheritdoc}
      *
-     * \RuntimeException Unsupported Application type
+     * @throws RuntimeException Unsupported Application type
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

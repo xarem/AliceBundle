@@ -19,11 +19,10 @@ use Hautelook\AliceBundle\Locator\EnvironmentlessFilesLocator;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
+use ReflectionClass;
 
 /**
  * @covers \Hautelook\AliceBundle\Locator\EnvironmentlessFilesLocator
- *
- * @author Théo FIDRY <theo.fidry@gmail.com>
  */
 class EnvironmentlessFilesLocatorTest extends TestCase
 {
@@ -32,12 +31,9 @@ class EnvironmentlessFilesLocatorTest extends TestCase
         $this->assertTrue(is_a(EnvironmentlessFilesLocator::class, FixtureLocatorInterface::class, true));
     }
 
-    /**
-     * @expectedException \DomainException
-     */
     public function testIsNotClonable()
     {
-        clone new EnvironmentlessFilesLocator(new FakeFixtureLocator());
+        $this->assertFalse((new ReflectionClass(EnvironmentlessFilesLocator::class))->isCloneable());
     }
 
     public function testConcateneAllLocatorFiles()

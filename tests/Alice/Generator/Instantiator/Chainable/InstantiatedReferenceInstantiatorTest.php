@@ -29,12 +29,11 @@ use Nelmio\Alice\Generator\ResolvedFixtureSet;
 use Nelmio\Alice\ObjectBag;
 use Nelmio\Alice\ParameterBag;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
  * @covers \Hautelook\AliceBundle\Alice\Generator\Instantiator\Chainable\InstantiatedReferenceInstantiator
- *
- * @author Théo FIDRY <theo.fidry@gmail.com>
  */
 class InstantiatedReferenceInstantiatorTest extends TestCase
 {
@@ -43,12 +42,9 @@ class InstantiatedReferenceInstantiatorTest extends TestCase
         $this->assertTrue(is_a(InstantiatedReferenceInstantiator::class, ChainableInstantiatorInterface::class, true));
     }
 
-    /**
-     * @expectedException \DomainException
-     */
     public function testIsNotClonable()
     {
-        clone new InstantiatedReferenceInstantiator();
+        $this->assertFalse((new ReflectionClass(InstantiatedReferenceInstantiator::class))->isCloneable());
     }
 
     public function testCannotInstantiateFixtureWithDefaultConstructor()

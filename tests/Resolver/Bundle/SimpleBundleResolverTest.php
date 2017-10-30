@@ -15,12 +15,11 @@ use Hautelook\AliceBundle\BundleResolverInterface;
 use Hautelook\AliceBundle\Resolver\ResolverKernel;
 use Hautelook\AliceBundle\Resolver\Bundle\SimpleBundleResolver;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
 /**
  * @covers \Hautelook\AliceBundle\Resolver\SimpleBundleResolver
- *
- * @author Théo FIDRY <theo.fidry@gmail.com>
  */
 class SimpleBundleResolverTest extends TestCase
 {
@@ -29,12 +28,9 @@ class SimpleBundleResolverTest extends TestCase
         $this->assertTrue(is_a(SimpleBundleResolver::class, BundleResolverInterface::class, true));
     }
 
-    /**
-     * @expectedException \DomainException
-     */
     public function testIsNotClonable()
     {
-        clone new SimpleBundleResolver();
+        $this->assertFalse((new ReflectionClass(SimpleBundleResolver::class))->isCloneable());
     }
 
     public function testCanResolveBundles()
@@ -63,8 +59,13 @@ class SimpleBundleResolverTest extends TestCase
     {
         $kernel = new ResolverKernel(__FUNCTION__, true);
         $application = new Application($kernel);
+        $kernel->boot();
 
-        $resolver = new SimpleBundleResolver();
-        $resolver->resolveBundles($application, ['UnknownBundle']);
+        try {
+            $resolver = new SimpleBundleResolver();
+            $resolver->resolveBundles($application, ['UnknownBundle']);
+        } finally {
+            $kernel->shutdown();
+        }
     }
 }

@@ -13,9 +13,6 @@ namespace Hautelook\AliceBundle;
 
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
-/**
- * @author Théo FIDRY <theo.fidry@gmail.com>
- */
 interface FixtureLocatorInterface
 {
     /**

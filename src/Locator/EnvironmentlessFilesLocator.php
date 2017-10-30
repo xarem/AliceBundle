@@ -14,16 +14,10 @@ namespace Hautelook\AliceBundle\Locator;
 use Hautelook\AliceBundle\FixtureLocatorInterface;
 use Nelmio\Alice\IsAServiceTrait;
 
-/**
- * @author Théo FIDRY <theo.fidry@gmail.com>
- */
 final class EnvironmentlessFilesLocator implements FixtureLocatorInterface
 {
     use IsAServiceTrait;
 
-    /**
-     * @var FixtureLocatorInterface
-     */
     private $fixtureLocator;
 
     public function __construct(FixtureLocatorInterface $fixtureLocator)

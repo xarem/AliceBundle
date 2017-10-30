@@ -15,12 +15,11 @@ use Fidry\AliceDataFixtures\FileResolverInterface;
 use Hautelook\AliceBundle\HttpKernel\DummyKernel;
 use Hautelook\AliceBundle\Functional\SimpleKernel;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * @covers \Hautelook\AliceBundle\Resolver\KernelFileResolver
- *
- * @author Théo FIDRY <theo.fidry@gmail.com>
  */
 class KernelFileResolverTest extends TestCase
 {
@@ -44,12 +43,9 @@ class KernelFileResolverTest extends TestCase
         $this->assertTrue(is_a(KernelFileResolver::class, FileResolverInterface::class, true));
     }
 
-    /**
-     * @expectedException \DomainException
-     */
     public function testIsNotClonable()
     {
-        clone new KernelFileResolver(new DummyKernel());
+        $this->assertFalse((new ReflectionClass(KernelFileResolver::class))->isCloneable());
     }
 
     public function testReturnResolvedFiles()

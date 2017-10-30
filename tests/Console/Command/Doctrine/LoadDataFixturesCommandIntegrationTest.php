@@ -24,8 +24,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @coversNothing
- *
- * @author Théo FIDRY <theo.fidry@gmail.com>
  */
 class LoadDataFixturesCommandIntegrationTest extends TestCase
 {
