@@ -1,5 +1,16 @@
 # Advanced usage
 
+1. [Enabling databases](#enabling-databases)
+1. [Environment specific fixtures](#environment-specific-fixtures)
+1. [Fixtures parameters](#fixtures-parameters)
+    1. [Alice parameters](#alice-parameters)
+    1. [Application parameters](#application-parameters)
+1. [Use service factories](#use-service-factories)
+1. [Load fixtures in a specific order](#load-fixtures-in-a-specific-order)
+    1. [Ordering the files found](#ordering-the-files-found)
+    1. [Persisting the classes in a specific order](#persisting-the-classes-in-a-specific-order)
+
+
 ## Enabling databases
 
 The database management is done in [FidryAliceDataFixtures](https://github.com/theofidry/AliceDataFixtures). Head
@@ -83,7 +94,7 @@ Alice parameters will **not** be injected in your application `ParameterBag`, i.
 fixtures.
 
 
-# Use service factories
+## Use service factories
 
 If your entity `AppBundle\Entity\Dummy` requires a factory registered as a service (Alice already supports [static
 factories](https://github.com/nelmio/alice/blob/master/doc/complete-reference.md#specifying-constructor-arguments)) to
@@ -96,6 +107,137 @@ AppBundle\Entity\Dummy:
     dummy_0:
         __construct: { '@dummy_factory::create': ['<username()>'] }
 ```
+
+
+## Load fixtures in a specific order
+
+Thanks to the new design of alice, you should not have to worry about the order as circular references are now handled
+correctly. If for some reasons you still need it, please proceed.
+
+
+### Ordering the files found
+
+You can do so by sorting the files found which are going to be loader by creating a custom file locator:
+
+```php
+<?php declare(strict_types=1);
+
+namespace Acme\Alice\Locator;
+
+use Hautelook\AliceBundle\FixtureLocatorInterface;
+use Nelmio\Alice\IsAServiceTrait;
+
+final class CustomOrderFilesLocator implements FixtureLocatorInterface
+{
+    use IsAServiceTrait;
+
+    private $decoratedFixtureLocator;
+
+    public function __construct(FixtureLocatorInterface $decoratedFixtureLocator)
+    {
+        $this->decoratedFixtureLocator = $decoratedFixtureLocator;
+    }
+
+    /**
+     * Re-order the files found by the decorated finder.
+     *
+     * {@inheritdoc}
+     */
+    public function locateFiles(array $bundles, string $environment): array
+    {
+        $files = $this->decoratedFixtureLocator->locateFiles($bundles, $environment);
+        
+        // TODO: order the files found in whatever order you want
+
+        return $files;
+    }
+}
+```
+
+You then need to register your file locator:
+
+```yaml
+// app/config/services.yaml
+
+services:
+    Acme\Alice\Locator\CustomOrderFilesLocator:
+        arguments:
+            - '@hautelook_alice.locator.environmentless'    # Decorates the currently used file locator
+
+    # Replaces the default file locator used
+    hautelook_alice.locator: '@Acme\Alice\Locator\CustomOrderFilesLocator'
+```
+
+Keep in mind however than:
+
+- when loaded, the files are actually merged together
+- the fixtures are not necessarily loaded in the same order as their declaration since there might be dependencies
+  to take into consideration
+
+
+### Persisting the classes in a specific order
+
+Maybe more likely to be relevant than the previous example. For doing so, you should register you own persister loader:
+
+```php
+<?php declare(strict_types=1);
+
+namespace Acme\Alice\Loader;
+
+use Fidry\AliceDataFixtures\LoaderInterface;
+use Fidry\AliceDataFixtures\Persistence\PurgeMode;
+use Nelmio\Alice\IsAServiceTrait;
+
+/**
+ * @final
+ */
+/*final*/ class CustomOrderLoader implements LoaderInterface
+{
+    use IsAServiceTrait;
+
+    private $decoratedLoader;
+
+    public function __construct(LoaderInterface $decoratedLoader)
+    {
+        $this->decoratedLoader = $decoratedLoader;
+    }
+    /**
+     * Pre process, persist and post process each object loaded.
+     *
+     * {@inheritdoc}
+     */
+    public function load(array $fixturesFiles, array $parameters = [], array $objects = [], PurgeMode $purgeMode = null): array
+    {
+        // We get the objects from the decorated loader
+        $objects = $this->decoratedLoader->load($fixturesFiles, $parameters, $objects, $purgeMode);
+
+        // TODO: re-order the objects we want them to be persisted
+
+        return $objects;
+    }
+}
+```
+
+For it to work, we then need to decorate the loader getting the objects from the files but before they are persisted:
+
+```yaml
+// app/config/services.yml
+
+services:
+    # We re-declare the loader we want to override to give it a different name
+    acme.fidry_alice_data_fixtures.loader.simple:
+        class: Fidry\AliceDataFixtures\Loader\SimpleLoader
+        arguments:
+            - '@nelmio_alice.files_loader'
+        
+    # We override the simple loader
+    fidry_alice_data_fixtures.loader.simple:
+        class: Acme\Alice\Loader\CustomOrderLoader
+        arguments:
+            - '@acme.fidry_alice_data_fixtures.loader.simple'
+```
+
+Done.
 
 
 Previous chapter: [Basic usage](../README.md#basic-usage)<br />

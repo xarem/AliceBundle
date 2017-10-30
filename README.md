@@ -21,17 +21,20 @@ project to know which database/ORM is supported.
 ## Documentation
 
 1. [Install](#installation)
-2. [Basic usage](#basic-usage)
-3. [Advanced usage](doc/advanced-usage.md)
+1. [Basic usage](#basic-usage)
+1. [Advanced usage](doc/advanced-usage.md)
     1. [Enabling databases](doc/advanced-usage.md#enabling-databases)
-    2. [Environment specific fixtures](doc/advanced-usage.md#environment-specific-fixtures)
-    3. [Fixtures parameters](doc/advanced-usage.md#fixtures-parameters)
+    1. [Environment specific fixtures](doc/advanced-usage.md#environment-specific-fixtures)
+    1. [Fixtures parameters](doc/advanced-usage.md#fixtures-parameters)
         1. [Alice parameters](doc/advanced-usage.md#alice-parameters)
-        2. [Application parameters](doc/advanced-usage.md#application-parameters)
-    4. [Use service factories](doc/advanced-usage.md#use-service-factories)
-4. [Custom Faker Providers](doc/faker-providers.md)
-5. [Custom Alice Processors](doc/alice-processors.md)
-7. [Resources](#resources)
+        1. [Application parameters](doc/advanced-usage.md#application-parameters)
+    1. [Use service factories](doc/advanced-usage.md#use-service-factories)
+    1. [Load fixtures in a specific order](doc/advanced-usage.md#load-fixtures-in-a-specific-order)
+        1. [Load fixtures in a specific order](doc/advanced-usage.md#ordering-the-files-found)
+        1. [Persisting the classes in a specific order](doc/advanced-usage.md#persisting-the-classes-in-a-specific-order)
+1. [Custom Faker Providers](doc/faker-providers.md)
+1. [Custom Alice Processors](doc/alice-processors.md)
+1. [Resources](#resources)
 
 Other references:
 
