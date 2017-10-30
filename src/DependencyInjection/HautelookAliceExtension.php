@@ -11,6 +11,7 @@
 
 namespace Hautelook\AliceBundle\DependencyInjection;
 
+use Faker\Provider\Base;
 use Hautelook\AliceBundle\HautelookAliceBundle;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -54,6 +55,12 @@ final class HautelookAliceExtension extends Extension
 
         $this->loadConfig($configs, $container);
         $this->loadServices($container);
+
+        // Register autoconfiguration rules for Symfony DI 3.3+
+        if (method_exists($container, 'registerForAutoconfiguration')) {
+            $container->registerForAutoconfiguration(Base::class)
+                ->addTag('nelmio_alice.faker.provider');
+        }
     }
 
     /**
