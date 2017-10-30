@@ -162,9 +162,9 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
         ;
 
         $purger = new Purger($manager, $purgeMode);
-        $loader = new PurgerLoader($loader, $purger, $purger);
+        $loader = new PurgerLoader($loader, $purger);
         $loader = new FileResolverLoader($loader, new KernelFileResolver($kernel));
 
-        return $loader->load($files, $parameters);
+        return $loader->load($files, $parameters, [], $purgeMode);
     }
 }
