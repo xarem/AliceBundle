@@ -47,7 +47,7 @@ You can already use parameters specifics to your fixture file with
 parameters, you may wish to have a dedicated file for that:
 
 ```yaml
-# app/Resources/fixtures/orm/parameters.yml
+# Resources/fixtures/parameters.yml
 
 parameters:
     app.alice.parameters.parameter1: something
@@ -58,7 +58,7 @@ parameters:
 Then you can use the parameters `app.alice.parameters.parameter1` across all your fixtures files:
 
 ```yaml
-# app/Resources/fixtures/orm/dummy.yml
+# Resources/fixtures/dummy.yml
 
 AppBundle\Entity\Dummy:
     dummy_0:
@@ -68,7 +68,7 @@ AppBundle\Entity\Dummy:
 You can also pass your parameters to functions:
 
 ```yaml
-# app/Resources/fixtures/orm/dummy.yml
+# Resources/fixtures/dummy.yml
 
 AppBundle\Entity\Dummy:
     dummy_0:
@@ -83,7 +83,7 @@ For more, check [Alice documentation](https://github.com/nelmio/alice#table-of-c
 You can access out of the box to your application parameters:
 
 ```yaml
-# app/Resources/fixtures/orm/dummy.yml
+# Resources/fixtures/dummy.yml
 
 AppBundle\Entity\Dummy:
     dummy_0:
@@ -101,7 +101,7 @@ factories](https://github.com/nelmio/alice/blob/master/doc/complete-reference.md
 `dummy_factory` be instantiated, you can specify it as a constructor:
 
 ```yaml
-# app/Resources/fixtures/orm/dummy.yml
+# Resources/fixtures/dummy.yml
 
 AppBundle\Entity\Dummy:
     dummy_0:

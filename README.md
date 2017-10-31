@@ -18,6 +18,32 @@ project to know which database/ORM is supported.
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/hautelook/AliceBundle.svg?b=master&style=flat-square)](https://scrutinizer-ci.com/g/hautelook/AliceBundle/?branch=master)
 [![Slack](https://img.shields.io/badge/slack-%23alice--fixtures-red.svg?style=flat-square)](https://symfony-devs.slack.com/shared_invite/MTYxMjcxMjc0MTc5LTE0OTA3ODE4OTQtYzc4NWVmMzRmZQ)
 
+
+## When to use this bundle?
+
+HautelookAliceBundle changed a lot, it first was acting as a simple bundle for [nelmio/alice](https://github.com/nelmio/alice),
+it then started to ship some additional features to enrich it.
+
+HautelookAliceBundle 1.x was the first milestone reaching a certain level of maturity in its usage:
+
+- Easily load a set of fixtures from a command
+- Being able to define different sets of fixtures for multiple environments
+- Customize the data generation with custom Faker providers
+- Customize the loading behaviour with processors
+
+HautelookAliceBundle 2.x changes a lot, although not so much. In 1.x, a lot of complexity was brought in the bundle
+due to nelmio/alice 2.x limitations and were at best workarounds (like the lack of handling of circular references).
+A lot of that complexity has been pushed back to nelmio/alice 3.x which has a much more flexible design. As a result:
+
+- [nelmio/alice](https://github.com/nelmio/alice) 3.x allows you to easily create PHP objects with random data in an elegant way
+- [FidryAliceDataFixtures](https://github.com/theofidry/AliceDataFixtures) is a persistence layer for nelmio/alice 3.x. If you need to persist the loaded objects,
+  it is the package you need. It provides you the flexibility to be able to purge the data between each loadings or
+  wrap the loading in a transaction for your tests for example to simply rollback once the test is finished instead of
+  calling an expansive purge.
+- hautelook/alice-bundle 2.x is now only focused on the fixture discovery: find the appropriate files and load them. If
+  you need to load specific sets of files for your tests, [FidryAliceDataFixtures](https://github.com/theofidry/AliceDataFixtures) is enough.
+
+
 ## Documentation
 
 1. [Install](#installation)
@@ -51,7 +77,7 @@ composer require doctrine/doctrine-bundle doctrine/orm:^2.5
 
 composer require --dev hautelook/alice-bundle:^2.0@beta \
   nelmio/alice:^3.0@beta \
-  theofidry/alice-data-fixtures:^1.0@beta \
+  theofidry/alice-data-fixtures:^1.0@rc \
   doctrine/data-fixtures
 ```
 
@@ -91,7 +117,10 @@ Configure the bundle to your needs (example with default values):
 # app/config/config_dev.yml
 
 hautelook_alice:
-    fixtures_path: 'Resources/fixtures/orm' # Path to which to look for fixtures relative to the project directory or the bundle path.
+    fixtures_path: 'Resources/fixtures' # Path to which to look for fixtures relative to the project directory or the bundle path.
+    root_dirs:
+        - '%kernel.root_dir%'
+        - '%kernel.project_dir%'
 ```
 
 
@@ -101,10 +130,14 @@ Assuming you are using [Doctrine](http://www.doctrine-project.org/projects/orm.h
 have the [`doctrine/doctrine-bundle`](https://github.com/doctrine/DoctrineBundle) and
 [`doctrine/data-fixtures`](https://github.com/doctrine/data-fixtures) packages installed.
 
-Then create a fixture file in `app/Resources/fixtures/orm`:
+Then create a fixture file in one of the following location:
+
+- `Resources/fixtures` if you are using flex
+- `app/Resources/fixtures` if you have a non-flex bundle-less Symfony application
+- `src/AppBundle/Resources/fixtures` or any bundle under which you want to place the fixtures
 
 ```yaml
-# app/Resources/fixtures/orm/dummy.yml
+# Resources/fixtures/dummy.yml
 
 AppBundle\Entity\Dummy:
     dummy_{1..10}:
@@ -113,7 +146,7 @@ AppBundle\Entity\Dummy:
 ```
 
 ```yaml
-# app/Resources/fixtures/orm/related_dummy.yml
+# Resources/fixtures/related_dummy.yml
 
 AppBundle\Entity\RelatedDummy:
     related_dummy_{1..10}:
