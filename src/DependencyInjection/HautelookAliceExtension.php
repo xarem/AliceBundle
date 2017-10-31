@@ -13,6 +13,7 @@ namespace Hautelook\AliceBundle\DependencyInjection;
 
 use Faker\Provider\Base;
 use Hautelook\AliceBundle\HautelookAliceBundle;
+use LogicException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -37,7 +38,7 @@ final class HautelookAliceExtension extends Extension
         $bundles = array_flip($container->getParameter('kernel.bundles'));
 
         if (false === array_key_exists('Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle', $bundles)) {
-            throw new \LogicException(
+            throw new LogicException(
                 sprintf(
                     'Cannot register "%s" without "Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle".',
                     HautelookAliceBundle::class
@@ -45,7 +46,7 @@ final class HautelookAliceExtension extends Extension
             );
         }
         if (false === array_key_exists('Doctrine\Bundle\DoctrineBundle\DoctrineBundle', $bundles)) {
-            throw new \LogicException(
+            throw new LogicException(
                 sprintf(
                     'Cannot register "%s" without "Doctrine\Bundle\DoctrineBundle\DoctrineBundle".',
                     HautelookAliceBundle::class
@@ -93,20 +94,13 @@ final class HautelookAliceExtension extends Extension
     {
         $loader = new XmlFileLoader($container, new FileLocator(self::SERVICES_DIR));
         $finder = new Finder();
+
         $finder->files()->in(self::SERVICES_DIR);
+
         foreach ($finder as $file) {
             $loader->load(
                 $file->getRelativePathname()
             );
         }
-
-        if ($container->hasParameter('kernel.project_dir')) {
-            $rootDir = $container->getParameter('kernel.project_dir');
-        } else {
-            $rootDir = $container->getParameter('kernel.root_dir');
-        }
-
-        $locatorDefinition = $container->getDefinition('hautelook_alice.locator.env_directory');
-        $locatorDefinition->addArgument($rootDir);
     }
 }

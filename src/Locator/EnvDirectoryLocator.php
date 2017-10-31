@@ -14,26 +14,27 @@ namespace Hautelook\AliceBundle\Locator;
 use Hautelook\AliceBundle\FixtureLocatorInterface;
 use Nelmio\Alice\IsAServiceTrait;
 use Symfony\Component\Finder\Finder as SymfonyFinder;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 final class EnvDirectoryLocator implements FixtureLocatorInterface
 {
     use IsAServiceTrait;
 
     private $fixturesPath;
-    private $projectDir;
+    private $rootDirs;
 
     /**
-     * @param string      $fixturePath Path to which to look for fixtures relative to the bundle path.
-     * @param string|null $projectDir  Path of the project directory.
+     * @param string   $fixturePath Path to which to look for fixtures relative to the bundle/base directory paths.
+     * @param string[] $rootDirs    Root directories.
      */
-    public function __construct(string $fixturePath, string $projectDir = null)
+    public function __construct(string $fixturePath, array $rootDirs)
     {
         $this->fixturesPath = $fixturePath;
-        $this->projectDir = $projectDir;
+        $this->rootDirs = $rootDirs;
     }
 
     /**
-     * Locate fixture files found inside a folder matching the environment name.
+     * Locates fixture files found inside a folder matching the environment name.
      *
      * For example, if the given fixture path is 'Resources/fixtures', it will try to locate
      * the files in the 'Resources/fixtures/dev' for each bundle passed ('dev' being the
@@ -43,35 +44,41 @@ final class EnvDirectoryLocator implements FixtureLocatorInterface
      */
     public function locateFiles(array $bundles, string $environment): array
     {
-        $fixtureFiles = null === $this->projectDir ? [] : $this->doLocateFiles($this->projectDir, $environment);
-
-        foreach ($bundles as $bundle) {
-            //// ---$fixtureFiles = $fixtureFiles + $this->doLocateFiles($bundle->getPath(), $environment);---
-            // do not use "plus" operator:
-            //    "... for keys that exist in both arrays, the elements from the left-hand array will be used,
-            //    and the matching elements from the right-hand array will be IGNORED."
-            //
-            //        $bundle1Files = ['bundle1/001-A.php', 'bundle1/001-B.php', 'bundle1/001-C.php'];
-            //        $bundle2Files = ['bundle2/001-A.php', 'bundle2/001-B.php', 'bundle2/001-C.php', 'bundle2/001-D.php'];
-            //        ----------
-            //        var_dump($bundle1Files + $bundle2Files);
-            //        > 4 elements: 3 from bundle1 + 1 from bundle2
-            //
-            //        var_dump(array_merge($bundle1Files, $bundle2Files));
-            //        > 7 elements: 3 from bundle1 + 4 from bundle2
-            $fixtureFiles = array_merge($fixtureFiles, $this->doLocateFiles($bundle->getPath(), $environment));
-        }
+        $fixtureFiles = array_merge(
+            ...array_map(
+                function (string $rootDir) use ($environment): array {
+                    return $this->doLocateFiles($rootDir, $environment);
+                },
+                $this->rootDirs
+            ),
+            ...array_map(
+                function (BundleInterface $bundle) use ($environment): array {
+                    return $this->doLocateFiles($bundle->getPath(), $environment);
+                },
+                $bundles
+            )
+        );
 
         return $fixtureFiles;
     }
 
+    /**
+     * Gets the list of files that can be found in the given path.
+     *
+     * @param string $path
+     * @param string $environment
+     *
+     * @return string[]
+     */
     private function doLocateFiles(string $path, string $environment): array
     {
         $path = '' !== $environment
             ? sprintf('%s/%s/%s', $path, $this->fixturesPath, $environment)
             : sprintf('%s/%s', $path, $this->fixturesPath)
         ;
+
         $path = realpath($path);
+
         if (false === $path || false === file_exists($path)) {
             return [];
         }

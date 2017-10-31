@@ -39,7 +39,8 @@ class EnvDirectoryLocatorTest extends TestCase
      */
     public function testGetFilesFromABundle(array $bundles, string $environment, string $path, array $expected)
     {
-        $locator = new EnvDirectoryLocator($path);
+        $invalidPath = '';
+        $locator = new EnvDirectoryLocator($path, [$invalidPath]);
         $actual = $locator->locateFiles($bundles, $environment);
 
         $this->assertEquals($expected, $actual, '', 0.0, 10, true);
@@ -132,7 +133,8 @@ class EnvDirectoryLocatorTest extends TestCase
         string $path,
         array $expected
     ) {
-        $locator = new EnvDirectoryLocator($path);
+        $invalidPath = '';
+        $locator = new EnvDirectoryLocator($path, [$invalidPath]);
         $actual = $locator->locateFiles($bundles, $environment);
 
         $this->assertEquals($expected, $actual, '', 0.0, 10, true);
@@ -171,7 +173,7 @@ class EnvDirectoryLocatorTest extends TestCase
     {
         $basePath = realpath(__DIR__.'/../..');
 
-        $locator = new EnvDirectoryLocator('fixtures/fixture_files', $basePath);
+        $locator = new EnvDirectoryLocator('fixtures/fixture_files', [$basePath]);
         $this->assertSame([$basePath.'/fixtures/fixture_files/city.yml'], $locator->locateFiles([], ''));
     }
 }

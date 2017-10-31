@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Hautelook\AliceBundle\Resolver\File;
 
 use Fidry\AliceDataFixtures\FileResolverInterface;
+use InvalidArgumentException;
 use Nelmio\Alice\IsAServiceTrait;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -21,9 +22,6 @@ final class KernelFileResolver implements FileResolverInterface
 {
     use IsAServiceTrait;
 
-    /**
-     * @var KernelInterface
-     */
     private $kernel;
 
     public function __construct(KernelInterface $kernel)
@@ -53,10 +51,10 @@ final class KernelFileResolver implements FileResolverInterface
 
         $realFile = realpath($realFile);
         if (false === $realFile || false === file_exists($realFile)) {
-            throw new \InvalidArgumentException(sprintf('The file "%s" was not found.', $file));
+            throw new InvalidArgumentException(sprintf('The file "%s" was not found.', $file));
         }
         if (false === is_file($realFile)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Expected "%s" to be a fixture file, got a directory instead.', $file)
             );
         }

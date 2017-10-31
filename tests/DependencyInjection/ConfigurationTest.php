@@ -23,10 +23,17 @@ class ConfigurationTest extends TestCase
     {
         $configuration = new Configuration();
         $processor = new Processor();
+
         $expected = [
-            'fixtures_path' => 'Resources/fixtures/orm',
+            'fixtures_path' => 'Resources/fixtures',
+            'root_dirs' => [
+                '%kernel.root_dir%',
+                '%kernel.project_dir%',
+            ],
         ];
+
         $actual = $processor->processConfiguration($configuration, []);
+
         $this->assertEquals($expected, $actual);
     }
 
@@ -34,17 +41,26 @@ class ConfigurationTest extends TestCase
     {
         $configuration = new Configuration();
         $processor = new Processor();
+
         $expected = [
-            'fixtures_path' => '/Resources/path/tofixtures',
+            'fixtures_path' => '/Resources/path/to/fixtures',
+            'root_dirs' => [
+                'my/root/dir',
+            ],
         ];
+
         $actual = $processor->processConfiguration(
             $configuration,
             [
                 'hautelook_alice' => [
-                    'fixtures_path' => '/Resources/path/tofixtures',
+                    'fixtures_path' => '/Resources/path/to/fixtures',
+                    'root_dirs' => [
+                        'my/root/dir',
+                    ],
                 ],
             ]
         );
+
         $this->assertEquals($expected, $actual);
     }
 }

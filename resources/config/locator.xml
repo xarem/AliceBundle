@@ -7,7 +7,7 @@
         <service id="hautelook_alice.locator.env_directory"
                  class="Hautelook\AliceBundle\Locator\EnvDirectoryLocator">
             <argument type="string">%hautelook_alice.fixtures_path%</argument>
-            <!-- Project root injected via the Extension -->
+            <argument type="string">%hautelook_alice.root_dirs%</argument>
         </service>
 
         <service id="hautelook_alice.locator.environmentless"
