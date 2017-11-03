@@ -20,7 +20,7 @@
             <argument type="service" id="hautelook_alice.resolver.bundle" />
             <argument type="service" id="hautelook_alice.locator" />
             <argument type="service" id="hautelook_alice.data_fixtures.loader" />
-            <argument type="service" id="logger" />
+            <argument type="service" id="logger" on-invalid="null" />
         </service>
 
         <service id="hautelook_alice.loader"

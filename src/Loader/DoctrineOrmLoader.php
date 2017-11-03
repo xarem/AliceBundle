@@ -29,6 +29,7 @@ use Hautelook\AliceBundle\Resolver\File\KernelFileResolver;
 use LogicException;
 use Nelmio\Alice\IsAServiceTrait;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -45,7 +46,7 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
         BundleResolverInterface $bundleResolver,
         FixtureLocatorInterface $fixtureLocator,
         LoaderInterface $loader,
-        LoggerInterface $logger
+        LoggerInterface $logger = null
     ) {
         $this->bundleResolver = $bundleResolver;
         $this->fixtureLocator = $fixtureLocator;
@@ -58,7 +59,7 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
             );
         }
         $this->loader = $loader;
-        $this->logger = $logger;
+        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
