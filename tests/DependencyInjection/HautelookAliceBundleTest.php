@@ -107,7 +107,12 @@ class HautelookAliceBundleTest extends TestCase
 
         $this->assertInstanceOf(
             \Fidry\AliceDataFixtures\LoaderInterface::class,
-            $this->kernel->getContainer()->get('hautelook_alice.data_fixtures.loader')
+            $this->kernel->getContainer()->get('hautelook_alice.data_fixtures.purge_loader')
+        );
+
+        $this->assertInstanceOf(
+            \Fidry\AliceDataFixtures\LoaderInterface::class,
+            $this->kernel->getContainer()->get('hautelook_alice.data_fixtures.append_loader')
         );
 
         $this->assertInstanceOf(

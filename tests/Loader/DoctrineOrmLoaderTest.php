@@ -47,6 +47,6 @@ class DoctrineOrmLoaderTest extends TestCase
      */
     public function testDataFixtureLoaderMustBePersisterAware()
     {
-        new DoctrineOrmLoader(new FakeBundleResolver(), new FakeFixtureLocator(), new FakeLoader(), new FakeLogger());
+        new DoctrineOrmLoader(new FakeBundleResolver(), new FakeFixtureLocator(), new FakeLoader(), new FakeLoader(), new FakeLogger());
     }
 }

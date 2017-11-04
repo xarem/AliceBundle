@@ -26,6 +26,7 @@ use Hautelook\AliceBundle\FixtureLocatorInterface;
 use Hautelook\AliceBundle\LoaderInterface as AliceBundleLoaderInterface;
 use Hautelook\AliceBundle\LoggerAwareInterface;
 use Hautelook\AliceBundle\Resolver\File\KernelFileResolver;
+use InvalidArgumentException;
 use LogicException;
 use Nelmio\Alice\IsAServiceTrait;
 use Psr\Log\LoggerInterface;
@@ -39,26 +40,42 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
 
     private $bundleResolver;
     private $fixtureLocator;
-    private $loader;
+    /** @var LoaderInterface|PersisterAwareInterface */
+    private $purgeLoader;
+    /** @var LoaderInterface|PersisterAwareInterface */
+    private $appendLoader;
     private $logger;
 
     public function __construct(
         BundleResolverInterface $bundleResolver,
         FixtureLocatorInterface $fixtureLocator,
-        LoaderInterface $loader,
+        LoaderInterface $purgeLoader,
+        LoaderInterface $appendLoader,
         LoggerInterface $logger = null
     ) {
         $this->bundleResolver = $bundleResolver;
         $this->fixtureLocator = $fixtureLocator;
-        if (false === $loader instanceof PersisterAwareInterface) {
-            throw new \InvalidArgumentException(
+
+        if (false === $purgeLoader instanceof PersisterAwareInterface) {
+            throw new InvalidArgumentException(
                 sprintf(
                     'Expected loader to be an instance of "%s".',
                     PersisterAwareInterface::class
                 )
             );
         }
-        $this->loader = $loader;
+
+        if (false === $appendLoader instanceof PersisterAwareInterface) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Expected loader to be an instance of "%s".',
+                    PersisterAwareInterface::class
+                )
+            );
+        }
+
+        $this->purgeLoader = $purgeLoader;
+        $this->appendLoader = $purgeLoader;
         $this->logger = $logger ?? new NullLogger();
     }
 
@@ -67,7 +84,7 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
      */
     public function withLogger(LoggerInterface $logger): self
     {
-        return new self($this->bundleResolver, $this->fixtureLocator, $this->loader, $logger);
+        return new self($this->bundleResolver, $this->fixtureLocator, $this->purgeLoader, $logger);
     }
 
     /**
@@ -92,8 +109,7 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
         }
 
         $fixtures = $this->loadFixtures(
-            $this->loader,
-            $application->getKernel(),
+            $this->purgeLoader,
             $manager,
             $fixtureFiles,
             $application->getKernel()->getContainer()->getParameterBag()->all(),
@@ -115,7 +131,7 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
             return;
         }
 
-        throw new \InvalidArgumentException(
+        throw new InvalidArgumentException(
             sprintf(
                 'Could not establish a shard connection for the shard "%s". The connection must be an instance'
                 .' of "%s", got "%s" instead.',
@@ -128,7 +144,6 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
 
     /**
      * @param LoaderInterface|PersisterAwareInterface $loader
-     * @param KernelInterface                         $kernel
      * @param EntityManagerInterface                  $manager
      * @param string[]                                $files
      * @param array                                   $parameters
@@ -139,7 +154,6 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
      */
     private function loadFixtures(
         LoaderInterface $loader,
-        KernelInterface $kernel,
         EntityManagerInterface $manager,
         array $files,
         array $parameters,
@@ -152,19 +166,20 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
             );
         }
 
-        $loader = $loader->withPersister(new ObjectManagerPersister($manager));
+        $persister = new ObjectManagerPersister($manager);
+
         if (true === $append) {
+            $loader = $this->appendLoader->withPersister($persister);
+
             return $loader->load($files, $parameters);
         }
+
+        $loader = $this->purgeLoader->withPersister($persister);
 
         $purgeMode = (true === $purgeWithTruncate)
             ? PurgeMode::createTruncateMode()
             : PurgeMode::createDeleteMode()
         ;
-
-        $purger = new Purger($manager, $purgeMode);
-        $loader = new PurgerLoader($loader, $purger);
-        $loader = new FileResolverLoader($loader, new KernelFileResolver($kernel));
 
         return $loader->load($files, $parameters, [], $purgeMode);
     }
