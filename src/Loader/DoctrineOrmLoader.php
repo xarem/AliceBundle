@@ -75,7 +75,7 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
         }
 
         $this->purgeLoader = $purgeLoader;
-        $this->appendLoader = $purgeLoader;
+        $this->appendLoader = $appendLoader;
         $this->logger = $logger ?? new NullLogger();
     }
 
