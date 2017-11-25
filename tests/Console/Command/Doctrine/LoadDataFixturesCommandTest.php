@@ -50,6 +50,8 @@ class LoadDataFixturesCommandTest extends TestCase
     {
         $command = new DoctrineOrmLoadDataFixturesCommand('dummy', new FakeDoctrineManagerRegistry(), new FakeLoader());
         $command->setApplication(null);
+
+        $this->assertTrue(true);
     }
 
     /**
