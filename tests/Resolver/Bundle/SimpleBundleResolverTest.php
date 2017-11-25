@@ -19,7 +19,7 @@ use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
 /**
- * @covers \Hautelook\AliceBundle\Resolver\SimpleBundleResolver
+ * @covers \Hautelook\AliceBundle\Resolver\Bundle\SimpleBundleResolver
  */
 class SimpleBundleResolverTest extends TestCase
 {

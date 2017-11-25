@@ -19,7 +19,7 @@ use ReflectionClass;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
- * @covers \Hautelook\AliceBundle\Resolver\KernelFileResolver
+ * @covers \Hautelook\AliceBundle\Resolver\File\KernelFileResolver
  */
 class KernelFileResolverTest extends TestCase
 {

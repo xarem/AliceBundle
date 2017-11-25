@@ -21,7 +21,7 @@ use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
 /**
- * @covers \Hautelook\AliceBundle\Resolver\NoBundleResolver
+ * @covers \Hautelook\AliceBundle\Resolver\Bundle\NoBundleResolver
  */
 class NoBundleResolverTest extends TestCase
 {

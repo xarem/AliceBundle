@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
- * @covers \Hautelook\AliceBundle\DependencyInjection\HautelookAliceBundle
+ * @covers \Hautelook\AliceBundle\HautelookAliceBundle
  * @covers \Hautelook\AliceBundle\DependencyInjection\Configuration
  * @covers \Hautelook\AliceBundle\DependencyInjection\HautelookAliceExtension
  */
