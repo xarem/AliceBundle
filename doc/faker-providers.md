@@ -25,7 +25,7 @@ Then declare it as a service with the `nelmio_alice.faker.provider` tag:
 
 services:
     data_fixtures.provider.foo:
-        class: App\DataFixtures\Provider\FooProvider
+        class: AppBundle\DataFixtures\Faker\Provider\FooProvider
         tags: [ { name: nelmio_alice.faker.provider } ]
 ```
 
