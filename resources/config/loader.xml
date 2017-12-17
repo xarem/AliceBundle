@@ -36,7 +36,8 @@
         </service>
 
         <service id="hautelook_alice.loader"
-                 alias="hautelook_alice.loader.doctrine_orm_loader" />
+                 alias="hautelook_alice.loader.doctrine_orm_loader"
+                 public="true" />
     </services>
 
 </container>

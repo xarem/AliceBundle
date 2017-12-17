@@ -16,7 +16,8 @@
         </service>
 
         <service id="hautelook_alice.locator"
-                 alias="hautelook_alice.locator.environmentless" />
+                 alias="hautelook_alice.locator.environmentless"
+                 public="true" />
     </services>
 
 </container>

@@ -16,7 +16,8 @@
         </service>
 
         <service id="hautelook_alice.resolver.bundle"
-                 alias="hautelook_alice.resolver.bundle.no_bundle_resolver" />
+                 alias="hautelook_alice.resolver.bundle.no_bundle_resolver"
+                 public="true" />
 
 
         <!-- File -->
@@ -26,7 +27,8 @@
         </service>
 
         <service id="hautelook_alice.resolver.file"
-                 alias="hautelook_alice.resolver.file.kernel_file_resolver" />
+                 alias="hautelook_alice.resolver.file.kernel_file_resolver"
+                 public="true" />
     </services>
 
 </container>

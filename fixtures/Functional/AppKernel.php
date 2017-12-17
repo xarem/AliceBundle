@@ -17,13 +17,16 @@ use Hautelook\AliceBundle\HautelookAliceBundle;
 use Nelmio\Alice\Bridge\Symfony\NelmioAliceBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 
-/**
- * @author Théo FIDRY <theo.fidry@gmail.com>
- */
 class AppKernel extends Kernel
 {
+    /**
+     * @inheritdoc
+     */
     public function registerBundles()
     {
         return [
@@ -35,9 +38,36 @@ class AppKernel extends Kernel
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__.'/config/config.yml');
         $loader->load(__DIR__.'/config/doctrine.yml');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        if ('public' !== $this->getEnvironment()) {
+            return;
+        }
+
+        $container->addCompilerPass(new class() implements CompilerPassInterface {
+            public function process(ContainerBuilder $container)
+            {
+                foreach ($container->getDefinitions() as $id => $definition) {
+                    $definition->setPublic(true);
+                }
+                foreach ($container->getAliases() as $id => $definition) {
+                    $definition->setPublic(true);
+                }
+            }
+        }, PassConfig::TYPE_OPTIMIZE);
     }
 }

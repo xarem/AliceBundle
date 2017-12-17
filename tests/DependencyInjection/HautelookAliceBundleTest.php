@@ -62,7 +62,7 @@ class HautelookAliceBundleTest extends TestCase
 
     public function testServiceRegistration()
     {
-        $this->kernel = new AppKernel('dev', true);
+        $this->kernel = new AppKernel('public', true);
         $this->kernel->boot();
 
         // Resolvers
