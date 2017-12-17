@@ -7,7 +7,7 @@ A [Symfony](http://symfony.com) bundle to manage fixtures with [nelmio/alice](ht
 The database support is done in [FidryAliceDataFixtures](https://github.com/theofidry/AliceDataFixtures). Check this
 project to know which database/ORM is supported.
 
-**Warning: this doc is behind updated for HautelookAliceBundle 2.0. If you want to check the documentation for 1.x, head
+**Warning: this is the documentation for HautelookAliceBundle 2.0. If you want to check the documentation for 1.x, head
 [this way](https://github.com/hautelook/AliceBundle/tree/1.x).**
 
 [![Package version](https://img.shields.io/packagist/vpre/hautelook/alice-bundle.svg?style=flat-square)](https://packagist.org/packages/hautelook/alice-bundle)
@@ -75,9 +75,7 @@ Example of installation:
 # If you are using Symfony standard edition, you can skip this step
 composer require doctrine/doctrine-bundle doctrine/orm:^2.5
 
-composer require --dev hautelook/alice-bundle:^2.0@rc \
-  theofidry/alice-data-fixtures:^1.0@rc \
-  doctrine/data-fixtures
+composer require --dev hautelook/alice-bundle doctrine/data-fixtures
 ```
 
 Explanation: HautelookAliceBundle uses [FidryAliceDataFixtures](https://github.com/theofidry/AliceDataFixtures) for the
