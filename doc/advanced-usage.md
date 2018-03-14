@@ -23,7 +23,7 @@ If you wish to use different fixtures depending of the environment, you can easi
 
 ```
 .
-└── app/Resources/fixtures/orm/
+└── app/Resources/fixtures/
     ├── environmentless-fixture1.yml
     ├── ...
     ├── inte
@@ -35,7 +35,7 @@ If you wish to use different fixtures depending of the environment, you can easi
 ```
 
 Then, when you're running the command `php app/console hautelook:fixtures:load --env=inte`, it will load all the
-fixtures found in `Resources/fixtures/orm/` (i.e.`environmentless-fixture1.yml`) and in `Resources/fixtures/orm/inte`.
+fixtures found in `Resources/fixtures/` (i.e.`environmentless-fixture1.yml`) and in `Resources/fixtures/inte`.
 
 
 ## Fixtures parameters
