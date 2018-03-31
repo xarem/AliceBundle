@@ -413,9 +413,9 @@ EOF
 
     private function verifyProducts(int $count)
     {
-        $this->assertSame(
+        $this->assertCount(
             $count,
-            count($this->defaultEntityManager->getRepository(Product::class)->findAll())
+            $this->defaultEntityManager->getRepository(Product::class)->findAll()
         );
 
         for ($i = 1; $i <= $count; ++$i) {
@@ -433,9 +433,9 @@ EOF
 
     private function verifyBrands(int $count)
     {
-        $this->assertSame(
+        $this->assertCount(
             $count,
-            count($this->defaultEntityManager->getRepository(Brand::class)->findAll())
+            $this->defaultEntityManager->getRepository(Brand::class)->findAll()
         );
 
         for ($i = 1; $i <= $count; ++$i) {

@@ -36,7 +36,7 @@ class ServiceFactoryTest extends TestCase
             $expected['city_'.$i] = $cityFactory->create((string) $i);
         }
 
-        $this->assertEquals(count($expected), count($set->getObjects()));
+        $this->assertCount(count($expected), $set->getObjects());
         $this->assertEquals($expected, $set->getObjects());
 
         $kernel->shutdown();
