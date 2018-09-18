@@ -31,10 +31,9 @@
     },
 
     "require": {
-        "nelmio/alice": "^3.1",
         "php": "^7.1",
         "psr/log": "^1.0",
-        "symfony/finder": "^3.3 || ^4.0",
+        "symfony/finder": "^3.4 || ^4.0",
         "theofidry/alice-data-fixtures": "^1.0",
         "symfony/symfony": "^3.4"
     },
