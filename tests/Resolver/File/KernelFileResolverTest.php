@@ -12,8 +12,8 @@
 namespace Hautelook\AliceBundle\Resolver\File;
 
 use Fidry\AliceDataFixtures\FileResolverInterface;
-use Hautelook\AliceBundle\HttpKernel\DummyKernel;
 use Hautelook\AliceBundle\Functional\SimpleKernel;
+use Hautelook\AliceBundle\HttpKernel\DummyKernel;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -29,7 +29,7 @@ class KernelFileResolverTest extends TestCase
     protected $kernel;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function tearDown()
     {

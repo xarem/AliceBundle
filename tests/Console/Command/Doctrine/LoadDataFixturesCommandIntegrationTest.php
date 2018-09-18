@@ -11,6 +11,7 @@
 
 namespace Hautelook\AliceBundle\Console\Command\Doctrine;
 
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\DBAL\Sharding\PoolingShardConnection;
 use Doctrine\ORM\EntityManagerInterface;
 use Hautelook\AliceBundle\Functional\AppKernel;
@@ -21,7 +22,6 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Tester\CommandTester;
-use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 
 /**
  * @coversNothing
@@ -49,7 +49,7 @@ class LoadDataFixturesCommandIntegrationTest extends TestCase
     private $defaultEntityManager;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function setUp()
     {
@@ -88,7 +88,7 @@ class LoadDataFixturesCommandIntegrationTest extends TestCase
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function tearDown()
     {

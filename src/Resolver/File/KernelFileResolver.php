@@ -30,7 +30,7 @@ final class KernelFileResolver implements FileResolverInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function resolve(array $filePaths): array
     {

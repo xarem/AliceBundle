@@ -24,7 +24,7 @@ class FakeLoader implements LoaderInterface
     use NotCallableTrait;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function load(
         Application $application,
@@ -35,6 +35,6 @@ class FakeLoader implements LoaderInterface
         bool $purgeWithTruncate,
         string $shard = null
     ) {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 }

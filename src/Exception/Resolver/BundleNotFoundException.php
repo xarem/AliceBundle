@@ -17,10 +17,7 @@ use Throwable;
 class BundleNotFoundException extends \RuntimeException
 {
     /**
-     * @param string            $bundle
      * @param BundleInterface[] $bundles
-     * @param int               $code
-     * @param Throwable|null   $previous
      *
      * @return static
      */

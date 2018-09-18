@@ -11,11 +11,7 @@
 
 namespace Hautelook\AliceBundle\Locator;
 
-use Hautelook\AliceBundle\FixtureLocator\FakeFixtureLocator;
 use Hautelook\AliceBundle\FixtureLocatorInterface;
-use Hautelook\AliceBundle\Locator\EnvFilesLocator;
-use Hautelook\AliceBundle\Locator\EnvFilesLocator\DummyBundle;
-use Hautelook\AliceBundle\Locator\EnvironmentlessFilesLocator;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;

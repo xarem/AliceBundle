@@ -24,8 +24,8 @@ final class EnvDirectoryLocator implements FixtureLocatorInterface
     private $rootDirs;
 
     /**
-     * @param string   $fixturePath Path to which to look for fixtures relative to the bundle/base directory paths.
-     * @param string[] $rootDirs    Root directories.
+     * @param string   $fixturePath path to which to look for fixtures relative to the bundle/base directory paths
+     * @param string[] $rootDirs    root directories
      */
     public function __construct(string $fixturePath, array $rootDirs)
     {
@@ -65,8 +65,6 @@ final class EnvDirectoryLocator implements FixtureLocatorInterface
     /**
      * Gets the list of files that can be found in the given path.
      *
-     * @param string $path
-     * @param string $environment
      *
      * @return string[]
      */

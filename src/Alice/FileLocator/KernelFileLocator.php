@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Hautelook\AliceBundle\Alice\FileLocator;
 
@@ -31,7 +31,7 @@ final class KernelFileLocator implements FileLocatorInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function locate(string $name, string $currentPath = null): string
     {

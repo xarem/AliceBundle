@@ -20,10 +20,10 @@ use Fidry\AliceDataFixtures\Persistence\PersisterInterface;
 class FakeLoaderPersisterAware extends FakeLoader implements PersisterAwareInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function withPersister(PersisterInterface $persister)
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 }

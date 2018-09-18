@@ -25,7 +25,7 @@ class ConfigurableKernel extends Kernel
     private $addedBundles = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBundles()
     {
@@ -46,7 +46,7 @@ class ConfigurableKernel extends Kernel
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {

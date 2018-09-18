@@ -47,7 +47,7 @@ final class DoctrineOrmLoadDataFixturesCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -88,7 +88,7 @@ final class DoctrineOrmLoadDataFixturesCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setApplication(ConsoleApplication $application = null)
     {
@@ -103,7 +103,6 @@ final class DoctrineOrmLoadDataFixturesCommand extends Command
 
         parent::setApplication($application);
     }
-
 
     /**
      * {@inheritdoc}
@@ -143,10 +142,8 @@ final class DoctrineOrmLoadDataFixturesCommand extends Command
     /**
      * Prompts to the user a message to ask him a confirmation.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     * @param string          $question
-     * @param bool            $default
+     * @param string $question
+     * @param bool   $default
      *
      * @return bool User choice
      */

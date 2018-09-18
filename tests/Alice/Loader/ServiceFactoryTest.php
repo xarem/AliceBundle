@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Hautelook\AliceBundle\Tests\Alice\Loader;
 
@@ -32,11 +32,11 @@ class ServiceFactoryTest extends TestCase
 
         $cityFactory = new CityFactory();
         $expected = [];
-        for ($i = 0; $i <= 10; $i++) {
+        for ($i = 0; $i <= 10; ++$i) {
             $expected['city_'.$i] = $cityFactory->create((string) $i);
         }
 
-        $this->assertCount(count($expected), $set->getObjects());
+        $this->assertCount(\count($expected), $set->getObjects());
         $this->assertEquals($expected, $set->getObjects());
 
         $kernel->shutdown();

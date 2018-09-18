@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Hautelook\AliceBundle\Alice\Generator\Instantiator\Chainable;
 
@@ -32,7 +32,7 @@ final class InstantiatedReferenceInstantiator implements ChainableInstantiatorIn
     private $container;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setContainer(ContainerInterface $container = null)
     {
@@ -40,28 +40,27 @@ final class InstantiatedReferenceInstantiator implements ChainableInstantiatorIn
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function canInstantiate(FixtureInterface $fixture): bool
     {
         $constructor = $fixture->getSpecs()->getConstructor();
 
-        return (
+        return
             null !== $constructor
             && $constructor instanceof MethodCallWithReference
             && $constructor->getCaller() instanceof InstantiatedReference
-        );
+        ;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function instantiate(
         FixtureInterface $fixture,
         ResolvedFixtureSet $fixtureSet,
         GenerationContext $context
-    ): ResolvedFixtureSet
-    {
+    ): ResolvedFixtureSet {
         $this->checkContainer(__METHOD__);
         $instance = $this->createInstance($fixture);
 
@@ -88,7 +87,7 @@ final class InstantiatedReferenceInstantiator implements ChainableInstantiatorIn
             $fixture->getClassName(),
             $constructor->getCaller()->getId(),
             $constructor->getMethod(),
-            $constructor->getArguments()
+            $constructor->getArguments(),
         ];
 
         if (null === $arguments) {
@@ -103,7 +102,7 @@ final class InstantiatedReferenceInstantiator implements ChainableInstantiatorIn
                 sprintf(
                     'Instantiated fixture was expected to be an instance of "%s". Got "%s" instead.',
                     $class,
-                    get_class($instance)
+                    \get_class($instance)
                 )
             );
         }
@@ -115,8 +114,7 @@ final class InstantiatedReferenceInstantiator implements ChainableInstantiatorIn
         FixtureInterface $fixture,
         ResolvedFixtureSet $fixtureSet,
         $instance
-    ): ResolvedFixtureSet
-    {
+    ): ResolvedFixtureSet {
         $objects = $fixtureSet->getObjects()->with(
             new SimpleObject(
                 $fixture->getId(),

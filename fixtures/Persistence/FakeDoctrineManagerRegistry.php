@@ -22,98 +22,98 @@ class FakeDoctrineManagerRegistry implements ManagerRegistry
     use NotCallableTrait;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDefaultConnectionName()
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getConnection($name = null)
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getConnections()
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getConnectionNames()
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDefaultManagerName()
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getManager($name = null)
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getManagers()
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function resetManager($name = null)
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAliasNamespace($alias)
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getManagerNames()
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getRepository($persistentObject, $persistentManagerName = null)
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getManagerForClass($class)
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 }

@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of the Hautelook\AliceBundle package.
+ *
+ * (c) Baldur Rensch <brensch@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Hautelook\AliceBundle\Functional;
 
@@ -10,16 +18,14 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\HttpKernel\Kernel;
 
 /**
- * @package Hautelook\AliceBundle\Functional
  * @author Dennis Langen <langendennis81@gmail.com>
  */
 class WithoutDoctrineKernel extends Kernel
 {
-
     private $addedBundles = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBundles()
     {
@@ -40,7 +46,7 @@ class WithoutDoctrineKernel extends Kernel
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {

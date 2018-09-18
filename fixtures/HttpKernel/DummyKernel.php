@@ -24,47 +24,47 @@ class DummyKernel implements KernelInterface
     use NotCallableTrait;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function serialize()
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function unserialize($serialized)
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBundles()
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerContainerConfiguration(\Symfony\Component\Config\Loader\LoaderInterface $loader)
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function boot()
     {
@@ -72,15 +72,15 @@ class DummyKernel implements KernelInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function shutdown()
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getBundles()
     {
@@ -88,23 +88,23 @@ class DummyKernel implements KernelInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getBundle($name, $first = true)
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function locateResource($name, $dir = null, $first = true)
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -112,7 +112,7 @@ class DummyKernel implements KernelInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getEnvironment()
     {
@@ -120,7 +120,7 @@ class DummyKernel implements KernelInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isDebug()
     {
@@ -128,15 +128,15 @@ class DummyKernel implements KernelInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getRootDir()
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getContainer()
     {
@@ -144,42 +144,42 @@ class DummyKernel implements KernelInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getStartTime()
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getCacheDir()
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getLogDir()
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getCharset()
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isClassInActiveBundle($class)
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 }

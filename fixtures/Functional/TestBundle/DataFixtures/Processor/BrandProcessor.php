@@ -15,7 +15,7 @@ use Hautelook\AliceBundle\Functional\TestBundle\Entity\Brand;
 use Nelmio\Alice\ProcessorInterface;
 
 /**
- * @link   https://github.com/nelmio/alice/blob/master/doc/processors.md#processors
+ * @see   https://github.com/nelmio/alice/blob/master/doc/processors.md#processors
  *
  * @author Théo FIDRY <theo.fidry@gmail.com>
  */

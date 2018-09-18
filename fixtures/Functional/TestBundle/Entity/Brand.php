@@ -13,7 +13,6 @@ namespace Hautelook\AliceBundle\Functional\TestBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Prophecy\Util\StringUtil;
 
 /**
  * @ORM\Entity

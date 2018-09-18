@@ -20,18 +20,18 @@ use Symfony\Component\HttpKernel\Kernel;
 class ResolverKernel extends Kernel
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBundles()
     {
         return [
             new ABundle(),
-            new BBundle()
+            new BBundle(),
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {

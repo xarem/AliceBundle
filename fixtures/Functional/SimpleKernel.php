@@ -26,7 +26,7 @@ class SimpleKernel extends Kernel
     private $overrideFirst;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBundles()
     {
@@ -36,7 +36,7 @@ class SimpleKernel extends Kernel
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
@@ -48,7 +48,7 @@ class SimpleKernel extends Kernel
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function locateResource($name, $dir = null, $first = true)
     {

@@ -30,7 +30,7 @@ final class NoBundleResolver implements BundleResolverInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function resolveBundles(Application $application, array $names)
     {

@@ -22,10 +22,10 @@ class FakeFixtureLocator implements FixtureLocatorInterface
     use NotCallableTrait;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function locateFiles(array $bundles, string $environment): array
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 }

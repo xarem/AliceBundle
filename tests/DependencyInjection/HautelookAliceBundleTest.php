@@ -32,7 +32,7 @@ class HautelookAliceBundleTest extends TestCase
     protected $kernel;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function tearDown()
     {
@@ -92,7 +92,6 @@ class HautelookAliceBundleTest extends TestCase
             $this->kernel->getContainer()->get('hautelook_alice.resolver.bundle')
         );
 
-
         // Locators
         $this->assertInstanceOf(
             \Hautelook\AliceBundle\Locator\EnvironmentlessFilesLocator::class,
@@ -108,7 +107,6 @@ class HautelookAliceBundleTest extends TestCase
             \Hautelook\AliceBundle\FixtureLocatorInterface::class,
             $this->kernel->getContainer()->get('hautelook_alice.locator')
         );
-
 
         // Loader
         $this->assertInstanceOf(
@@ -135,7 +133,6 @@ class HautelookAliceBundleTest extends TestCase
             \Hautelook\AliceBundle\LoaderInterface::class,
             $this->kernel->getContainer()->get('hautelook_alice.loader')
         );
-
 
         // Commands
         $this->assertInstanceOf(

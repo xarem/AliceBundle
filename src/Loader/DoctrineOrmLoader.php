@@ -14,26 +14,20 @@ namespace Hautelook\AliceBundle\Loader;
 use Doctrine\DBAL\Sharding\PoolingShardConnection;
 use Doctrine\ORM\EntityManagerInterface;
 use Fidry\AliceDataFixtures\Bridge\Doctrine\Persister\ObjectManagerPersister;
-use Fidry\AliceDataFixtures\Bridge\Doctrine\Purger\Purger;
-use Fidry\AliceDataFixtures\Loader\FileResolverLoader;
-use Fidry\AliceDataFixtures\Loader\PurgerLoader;
 use Fidry\AliceDataFixtures\LoaderInterface;
 use Fidry\AliceDataFixtures\Persistence\PersisterAwareInterface;
 use Fidry\AliceDataFixtures\Persistence\PersisterInterface;
 use Fidry\AliceDataFixtures\Persistence\PurgeMode;
-use Fidry\AliceDataFixtures\Persistence\Purger\NullPurger;
 use Hautelook\AliceBundle\BundleResolverInterface;
 use Hautelook\AliceBundle\FixtureLocatorInterface;
 use Hautelook\AliceBundle\LoaderInterface as AliceBundleLoaderInterface;
 use Hautelook\AliceBundle\LoggerAwareInterface;
-use Hautelook\AliceBundle\Resolver\File\KernelFileResolver;
 use InvalidArgumentException;
 use LogicException;
 use Nelmio\Alice\IsAServiceTrait;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAwareInterface
 {
@@ -81,7 +75,7 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function withLogger(LoggerInterface $logger): self
     {
@@ -95,7 +89,7 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function load(
         Application $application,
@@ -143,13 +137,11 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
 
     /**
      * @param LoaderInterface|PersisterAwareInterface $loader
-     * @param EntityManagerInterface                  $manager
      * @param string[]                                $files
-     * @param array                                   $parameters
      *
      * @return object[]
      */
-    final protected function loadFixtures(
+    protected function loadFixtures(
         LoaderInterface $loader,
         EntityManagerInterface $manager,
         array $files,
@@ -178,7 +170,7 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
                 .' of "%s", got "%s" instead.',
                 $shard,
                 PoolingShardConnection::class,
-                get_class($connection)
+                \get_class($connection)
             )
         );
     }

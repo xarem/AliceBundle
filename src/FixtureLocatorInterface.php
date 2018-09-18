@@ -19,7 +19,6 @@ interface FixtureLocatorInterface
      * Locales all the fixture files to load.
      *
      * @param BundleInterface[] $bundles
-     * @param string            $environment
      *
      * @return string[] Fixtures files paths
      */

@@ -21,7 +21,7 @@ final class SimpleBundleResolver implements BundleResolverInterface
     use IsAServiceTrait;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function resolveBundles(Application $application, array $names)
     {

@@ -16,8 +16,6 @@ use Psr\Log\LoggerInterface;
 interface LoggerAwareInterface
 {
     /**
-     * @param LoggerInterface $logger
-     *
      * @return static
      */
     public function withLogger(LoggerInterface $logger);

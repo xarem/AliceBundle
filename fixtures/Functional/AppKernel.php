@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\Kernel;
 class AppKernel extends Kernel
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBundles()
     {
@@ -39,7 +39,7 @@ class AppKernel extends Kernel
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
@@ -48,7 +48,7 @@ class AppKernel extends Kernel
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function build(ContainerBuilder $container)
     {

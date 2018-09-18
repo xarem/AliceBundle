@@ -12,7 +12,6 @@
 namespace Hautelook\AliceBundle\DependencyInjection;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
-use Faker\Provider\Base;
 use Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle;
 use Hautelook\AliceBundle\Console\Command\Doctrine\DoctrineOrmMissingBundleInformationCommand;
 use Hautelook\AliceBundle\HautelookAliceBundle;
@@ -35,7 +34,7 @@ final class HautelookAliceExtension extends Extension
     const SERVICES_DIR = __DIR__.'/../../resources/config';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -67,8 +66,6 @@ final class HautelookAliceExtension extends Extension
     /**
      * Loads alice configuration and add the configuration values to the application parameters.
      *
-     * @param array            $configs
-     * @param ContainerBuilder $container
      *
      * @throws \InvalidArgumentException
      */
@@ -87,8 +84,6 @@ final class HautelookAliceExtension extends Extension
 
     /**
      * Loads all the services declarations.
-     *
-     * @param ContainerBuilder $container
      */
     private function loadServices(ContainerBuilder $container)
     {

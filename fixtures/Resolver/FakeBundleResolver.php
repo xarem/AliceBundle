@@ -23,10 +23,10 @@ class FakeBundleResolver implements BundleResolverInterface
     use NotCallableTrait;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function resolveBundles(Application $application, array $names)
     {
-        $this->__call(__METHOD__, func_get_args());
+        $this->__call(__METHOD__, \func_get_args());
     }
 }

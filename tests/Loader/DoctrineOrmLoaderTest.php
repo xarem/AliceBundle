@@ -12,7 +12,6 @@
 namespace Hautelook\AliceBundle\Loader;
 
 use Hautelook\AliceBundle\DataFixtures\Loader\FakeLoader;
-use Hautelook\AliceBundle\DataFixtures\Loader\FakeLoaderPersisterAware;
 use Hautelook\AliceBundle\FixtureLocator\FakeFixtureLocator;
 use Hautelook\AliceBundle\LoaderInterface;
 use Hautelook\AliceBundle\Logger\FakeLogger;

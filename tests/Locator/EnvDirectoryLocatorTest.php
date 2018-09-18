@@ -52,21 +52,21 @@ class EnvDirectoryLocatorTest extends TestCase
             [new EmptyBundle()],
             'test',
             'Resources/fixtures',
-            []
+            [],
         ];
 
         yield 'bundle with non-existing path' => [
             [new EmptyBundle()],
             'test',
             'ftp://Resources/fixtures',
-            []
+            [],
         ];
 
         yield 'bundle with file as path' => [
             [new EmptyBundle()],
             'test',
             'Resources/fixtures/test/file1.yml',
-            []
+            [],
         ];
 
         yield 'bundle with fixture files' => [
@@ -79,14 +79,14 @@ class EnvDirectoryLocatorTest extends TestCase
                 $prefix.'/file3.php',
                 $prefix.'/file5.YML',
                 $prefix.'/file6.YAML',
-            ]
+            ],
         ];
 
         yield 'bundle  with fixture files but no fixtures in env' => [
             [new DummyBundle()],
             '',
             'Resources/fixtures',
-            []
+            [],
         ];
 
         yield 'bundle with fixture files' => [
@@ -99,7 +99,7 @@ class EnvDirectoryLocatorTest extends TestCase
                 $prefix.'/file3.php',
                 $prefix.'/file5.YML',
                 $prefix.'/file6.YAML',
-            ]
+            ],
         ];
 
         yield 'bundle with fixture files in a custom directory' => [
@@ -108,23 +108,18 @@ class EnvDirectoryLocatorTest extends TestCase
             'resources',
             [
                 realpath(__DIR__.'/../../fixtures/Locator/EnvDirectoryLocator/AnotherDummyBundle/resources/dev/file10.yml'),
-            ]
+            ],
         ];
 
         yield 'bundle with fixture directory but no fixture files' => [
             [new AnotherDummyBundle()],
             'test',
             'resources',
-            []
+            [],
         ];
     }
 
     /**
-     * @param array  $bundles
-     * @param string $environment
-     * @param string $path
-     * @param array  $expected
-     *
      * @dataProvider provideSetsForSeveralBundles
      */
     public function testGetFilesFromSeveralBundles(
@@ -142,14 +137,14 @@ class EnvDirectoryLocatorTest extends TestCase
 
     public function provideSetsForSeveralBundles()
     {
-        $baseDir = 'Resources'.DIRECTORY_SEPARATOR.'fixtures';
+        $baseDir = 'Resources'.\DIRECTORY_SEPARATOR.'fixtures';
         $env = 'test';
 
         $bundleA = new DummyBundle();
         $bundleB = new OneMoreDummyBundle();
 
-        $prefixA = $bundleA->getPath().DIRECTORY_SEPARATOR.$baseDir.DIRECTORY_SEPARATOR.$env.DIRECTORY_SEPARATOR;
-        $prefixB = $bundleB->getPath().DIRECTORY_SEPARATOR.$baseDir.DIRECTORY_SEPARATOR.$env.DIRECTORY_SEPARATOR;
+        $prefixA = $bundleA->getPath().\DIRECTORY_SEPARATOR.$baseDir.\DIRECTORY_SEPARATOR.$env.\DIRECTORY_SEPARATOR;
+        $prefixB = $bundleB->getPath().\DIRECTORY_SEPARATOR.$baseDir.\DIRECTORY_SEPARATOR.$env.\DIRECTORY_SEPARATOR;
 
         yield 'several bundles with fixture files' => [
             [$bundleA, $bundleB],
@@ -165,7 +160,7 @@ class EnvDirectoryLocatorTest extends TestCase
                 $prefixB.'file1.yml',
                 $prefixB.'file2.yaml',
                 $prefixB.'file3.php',
-            ]
+            ],
         ];
     }
 

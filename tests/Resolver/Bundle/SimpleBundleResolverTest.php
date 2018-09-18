@@ -13,7 +13,6 @@ namespace Hautelook\AliceBundle\Resolver\Bundle;
 
 use Hautelook\AliceBundle\BundleResolverInterface;
 use Hautelook\AliceBundle\Resolver\ResolverKernel;
-use Hautelook\AliceBundle\Resolver\Bundle\SimpleBundleResolver;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Console\Application;

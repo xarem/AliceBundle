@@ -13,10 +13,10 @@ namespace Hautelook\AliceBundle\Console\Command\Doctrine;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Hautelook\AliceBundle\HttpKernel\DummyKernel;
-use Hautelook\AliceBundle\Persistence\ObjectMapper\FakeEntityManager;
 use Hautelook\AliceBundle\Loader\FakeLoader;
 use Hautelook\AliceBundle\LoaderInterface;
 use Hautelook\AliceBundle\Persistence\FakeDoctrineManagerRegistry;
+use Hautelook\AliceBundle\Persistence\ObjectMapper\FakeEntityManager;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -128,7 +128,7 @@ class LoadDataFixturesCommandTest extends TestCase
         $loaderProphecy
             ->load($application, $manager, ['ABundle', 'BBundle'], 'dummy_env', true, true, 'shard_id')
             ->shouldBeCalled();
-        ;
+
         /** @var LoaderInterface $loader */
         $loader = $loaderProphecy->reveal();
 

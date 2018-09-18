@@ -14,7 +14,6 @@ namespace Hautelook\AliceBundle\Resolver\Bundle;
 use Hautelook\AliceBundle\BundleResolverInterface;
 use Hautelook\AliceBundle\Resolver\FakeBundleResolver;
 use Hautelook\AliceBundle\Resolver\ResolverKernel;
-use Hautelook\AliceBundle\Resolver\Bundle\NoBundleResolver;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use ReflectionClass;
@@ -63,7 +62,7 @@ class NoBundleResolverTest extends TestCase
         $decoratedResolverProphecy = $this->prophesize(BundleResolverInterface::class);
         $decoratedResolverProphecy->resolveBundles($application, $bundles)->willReturn($expected = [new \stdClass()]);
         /** @var BundleResolverInterface $decoratedResolver */
-        $decoratedResolver =$decoratedResolverProphecy->reveal();
+        $decoratedResolver = $decoratedResolverProphecy->reveal();
 
         $resolver = new NoBundleResolver($decoratedResolver);
         $actual = $resolver->resolveBundles($application, $bundles);

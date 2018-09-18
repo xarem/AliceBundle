@@ -38,7 +38,9 @@ matrix:
     - php: '7.2'
       env: SYMFONY_VERSION='~4.0.0'
     - php: '7.2'
-      env: SYMFONY_VERSION='~4.1.0'
+      env:
+        - SYMFONY_VERSION='~4.1.0'
+        - LINT=1
   allow_failures:
     - php: nightly
 
@@ -64,11 +66,14 @@ before_install:
       PHPUNIT_BIN="php -d zend.enable_gc=0 $PHPUNIT_BIN"
     fi
   - mysql -u root -e 'create database hautelook_alice_bundle;'
+  - if [[ $LINT = '1' ]]; then wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.12.1/php-cs-fixer.phar; fi
 
 install:
   - composer update --prefer-dist $COMPOSER_FLAGS
 
-script: $PHPUNIT_BIN -c $PHPUNIT_CONFIG $PHPUNIT_FLAGS
+script:
+  - $PHPUNIT_BIN -c $PHPUNIT_CONFIG $PHPUNIT_FLAGS
+  - if [[ $LINT = '1' ]]; then php php-cs-fixer.phar fix --dry-run --diff --no-ansi; fi
 
 after_script:
   - |
