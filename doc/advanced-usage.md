@@ -23,7 +23,7 @@ If you wish to use different fixtures depending of the environment, you can easi
 
 ```
 .
-└── app/Resources/fixtures/
+└── fixtures/ or app/Resources/fixtures/
     ├── environmentless-fixture1.yml
     ├── ...
     ├── inte
@@ -47,7 +47,7 @@ You can already use parameters specifics to your fixture file with
 parameters, you may wish to have a dedicated file for that:
 
 ```yaml
-# Resources/fixtures/parameters.yml
+# fixtures/parameters.yaml
 
 parameters:
     app.alice.parameters.parameter1: something
@@ -58,7 +58,7 @@ parameters:
 Then you can use the parameters `app.alice.parameters.parameter1` across all your fixtures files:
 
 ```yaml
-# Resources/fixtures/dummy.yml
+# fixtures/dummy.yaml
 
 AppBundle\Entity\Dummy:
     dummy_0:
@@ -68,7 +68,7 @@ AppBundle\Entity\Dummy:
 You can also pass your parameters to functions:
 
 ```yaml
-# Resources/fixtures/dummy.yml
+# fixtures/dummy.yaml
 
 AppBundle\Entity\Dummy:
     dummy_0:
@@ -83,7 +83,7 @@ For more, check [Alice documentation](https://github.com/nelmio/alice#table-of-c
 You can access out of the box to your application parameters:
 
 ```yaml
-# Resources/fixtures/dummy.yml
+# fixtures/dummy.yaml
 
 AppBundle\Entity\Dummy:
     dummy_0:
@@ -101,7 +101,7 @@ factories](https://github.com/nelmio/alice/blob/master/doc/complete-reference.md
 `dummy_factory` be instantiated, you can specify it as a constructor:
 
 ```yaml
-# Resources/fixtures/dummy.yml
+# fixtures/dummy.yaml
 
 AppBundle\Entity\Dummy:
     dummy_0:
@@ -148,6 +148,10 @@ final class CustomOrderFilesLocator implements FixtureLocatorInterface
         $files = $this->decoratedFixtureLocator->locateFiles($bundles, $environment);
         
         // TODO: order the files found in whatever order you want
+        
+        // Warning: the order will only affect how the fixture definitions are merged. Indeed the order in which they
+        // are instantiated afterwards by nelmio/alice may change due to handling the fixture dependencies and
+        // circular references.
 
         return $files;
     }
@@ -157,7 +161,7 @@ final class CustomOrderFilesLocator implements FixtureLocatorInterface
 You then need to register your file locator:
 
 ```yaml
-// app/config/services.yaml
+// config/services.yaml
 
 services:
     Acme\Alice\Locator\CustomOrderFilesLocator:
@@ -221,7 +225,7 @@ use Nelmio\Alice\IsAServiceTrait;
 For it to work, we then need to decorate the loader getting the objects from the files but before they are persisted:
 
 ```yaml
-// app/config/services.yml
+// config/services.yaml
 
 services:
     # We re-declare the loader we want to override to give it a different name

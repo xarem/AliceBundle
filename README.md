@@ -62,28 +62,20 @@ A lot of that complexity has been pushed back to nelmio/alice 3.x which has a mu
 1. [Custom Alice Processors](doc/alice-processors.md)
 1. [Resources](#resources)
 
-Other references:
-
-* [Knp University screencast](https://knpuniversity.com/screencast/alice-fixtures)
-
 
 ## Installation
 
-Example of installation:
+With Flex:
 
-```bash
-# If you are using Symfony standard edition, you can skip this step
-composer require doctrine/doctrine-bundle doctrine/orm:^2.5
+```
+# If you do not have Doctrine installed yet:
+composer require doctrine-orm
 
 composer require --dev hautelook/alice-bundle doctrine/data-fixtures
 ```
 
-Explanation: HautelookAliceBundle uses [FidryAliceDataFixtures](https://github.com/theofidry/AliceDataFixtures) for the
-persistence layer. As FidryAliceDataFixtures is compatible with different databases/ORM, one cannot be installed by
-default. In the example above, we are using Doctrine ORM which requires
-`doctrine/orm doctrine/orm-bundle doctrine/data-fixtures`.
-
-Then, enable the bundle by updating your `app/AppKernel.php` file to enable the bundle:
+Without flex you will have to install `doctrine/orm` and register the bundles accordingly in `app/AppKernel.php` or
+wherever your Kernel class is located:
 
 ```php
 <?php
@@ -108,17 +100,19 @@ public function registerBundles()
 }
 ```
 
-Configure the bundle to your needs (example with default values):
+Configure the bundle to your needs, for example:
 
 ```yaml
-# app/config/config_dev.yml
+# config/packages/dev/hautelook_alice.yaml
 
 hautelook_alice:
-    fixtures_path: 'Resources/fixtures' # Path to which to look for fixtures relative to the project directory or the bundle path.
+    fixtures_path: 'fixtures' # Path to which to look for fixtures relative to the project directory or the bundle path.
     root_dirs:
         - '%kernel.root_dir%'
         - '%kernel.project_dir%'
 ```
+
+If you are using a non-flex architecture, you may want to use `Resources/fixtures` instead of `fixtures`.
 
 
 ## Basic usage
@@ -129,12 +123,12 @@ have the [`doctrine/doctrine-bundle`](https://github.com/doctrine/DoctrineBundle
 
 Then create a fixture file in one of the following location:
 
-- `Resources/fixtures` if you are using flex
+- `fixtures` if you are using flex
 - `app/Resources/fixtures` if you have a non-flex bundle-less Symfony application
 - `src/AppBundle/Resources/fixtures` or any bundle under which you want to place the fixtures
 
 ```yaml
-# Resources/fixtures/dummy.yml
+# fixtures/dummy.yaml
 
 AppBundle\Entity\Dummy:
     dummy_{1..10}:
@@ -143,7 +137,7 @@ AppBundle\Entity\Dummy:
 ```
 
 ```yaml
-# Resources/fixtures/related_dummy.yml
+# fixtures/related_dummy.yaml
 
 AppBundle\Entity\RelatedDummy:
     related_dummy_{1..10}:
