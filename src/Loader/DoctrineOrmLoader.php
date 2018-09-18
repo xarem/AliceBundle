@@ -19,6 +19,7 @@ use Fidry\AliceDataFixtures\Loader\FileResolverLoader;
 use Fidry\AliceDataFixtures\Loader\PurgerLoader;
 use Fidry\AliceDataFixtures\LoaderInterface;
 use Fidry\AliceDataFixtures\Persistence\PersisterAwareInterface;
+use Fidry\AliceDataFixtures\Persistence\PersisterInterface;
 use Fidry\AliceDataFixtures\Persistence\PurgeMode;
 use Fidry\AliceDataFixtures\Persistence\Purger\NullPurger;
 use Hautelook\AliceBundle\BundleResolverInterface;
@@ -84,7 +85,13 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
      */
     public function withLogger(LoggerInterface $logger): self
     {
-        return new self($this->bundleResolver, $this->fixtureLocator, $this->purgeLoader, $logger);
+        return new self(
+            $this->bundleResolver,
+            $this->fixtureLocator,
+            $this->purgeLoader,
+            $this->appendLoader,
+            $logger
+        );
     }
 
     /**
@@ -99,6 +106,12 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
         bool $purgeWithTruncate,
         string $shard = null
     ) {
+        if ($append && $purgeWithTruncate) {
+            throw new LogicException(
+                'Cannot append loaded fixtures and at the same time purge the database. Choose one.'
+            );
+        }
+
         $bundles = $this->bundleResolver->resolveBundles($application, $bundles);
         $fixtureFiles = $this->fixtureLocator->locateFiles($bundles, $environment);
 
@@ -108,18 +121,46 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
             $this->connectToShardConnection($manager, $shard);
         }
 
+        $purgeMode = $this->retrievePurgeMode($append, $purgeWithTruncate);
+
         $fixtures = $this->loadFixtures(
-            $this->purgeLoader,
+            $append ? $this->appendLoader : $this->purgeLoader,
             $manager,
             $fixtureFiles,
             $application->getKernel()->getContainer()->getParameterBag()->all(),
-            $append,
-            $purgeWithTruncate
+            $purgeMode
         );
 
         $this->logger->info('fixtures loaded');
 
         return $fixtures;
+    }
+
+    protected function createPersister(EntityManagerInterface $manager): PersisterInterface
+    {
+        return new ObjectManagerPersister($manager);
+    }
+
+    /**
+     * @param LoaderInterface|PersisterAwareInterface $loader
+     * @param EntityManagerInterface                  $manager
+     * @param string[]                                $files
+     * @param array                                   $parameters
+     *
+     * @return object[]
+     */
+    final protected function loadFixtures(
+        LoaderInterface $loader,
+        EntityManagerInterface $manager,
+        array $files,
+        array $parameters,
+        ?PurgeMode $purgeMode
+    ) {
+        $persister = $this->createPersister($manager);
+
+        $loader = $loader->withPersister($persister);
+
+        return $loader->load($files, $parameters, [], $purgeMode);
     }
 
     private function connectToShardConnection(EntityManagerInterface $manager, string $shard)
@@ -142,45 +183,15 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
         );
     }
 
-    /**
-     * @param LoaderInterface|PersisterAwareInterface $loader
-     * @param EntityManagerInterface                  $manager
-     * @param string[]                                $files
-     * @param array                                   $parameters
-     * @param bool                                    $append
-     * @param bool|null                               $purgeWithTruncate
-     *
-     * @return object[]
-     */
-    private function loadFixtures(
-        LoaderInterface $loader,
-        EntityManagerInterface $manager,
-        array $files,
-        array $parameters,
-        bool $append,
-        bool $purgeWithTruncate
-    ) {
-        if ($append && $purgeWithTruncate) {
-            throw new LogicException(
-                'Cannot append loaded fixtures and at the same time purge the database. Choose one.'
-            );
+    private function retrievePurgeMode(bool $append, bool $purgeWithTruncate): ?PurgeMode
+    {
+        if ($append) {
+            return null;
         }
 
-        $persister = new ObjectManagerPersister($manager);
-
-        if (true === $append) {
-            $loader = $this->appendLoader->withPersister($persister);
-
-            return $loader->load($files, $parameters);
-        }
-
-        $loader = $this->purgeLoader->withPersister($persister);
-
-        $purgeMode = (true === $purgeWithTruncate)
+        return (true === $purgeWithTruncate)
             ? PurgeMode::createTruncateMode()
             : PurgeMode::createDeleteMode()
         ;
-
-        return $loader->load($files, $parameters, [], $purgeMode);
     }
 }
