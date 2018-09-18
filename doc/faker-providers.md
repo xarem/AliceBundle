@@ -18,21 +18,30 @@ class FooProvider
 }
 ```
 
-Then declare it as a service with the `nelmio_alice.faker.provider` tag:
+Then declare it as a service with the `nelmio_alice.faker.provider` tag unless you have `autoconfigure` enabled:
 
 ```yaml
-# app/config/services.yml
+# config/services.yaml
 
 services:
-    data_fixtures.provider.foo:
-        class: AppBundle\DataFixtures\Faker\Provider\FooProvider
+    AppBundle\DataFixtures\Faker\Provider\FooProvider: ~
+```
+
+Without `autoconfigure`:
+
+```yaml
+# config/services.yaml
+
+services:
+    AppBundle\DataFixtures\Faker\Provider\FooProvider:
         tags: [ { name: nelmio_alice.faker.provider } ]
 ```
 
 That's it! You can now use it in your fixtures:
 
 ```yaml
-# app/Resources/fixtures/orm/dummy.yml
+# fixtures/orm/dummy.yml (Sf4)
+# or app/Resources/fixtures/orm/dummy.yml
 
 AppBundle\Entity\Dummy:
     brand{1..10}:
