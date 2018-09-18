@@ -11,11 +11,15 @@
 
 namespace Hautelook\AliceBundle\DependencyInjection;
 
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Faker\Provider\Base;
+use Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle;
+use Hautelook\AliceBundle\Console\Command\Doctrine\DoctrineOrmMissingBundleInformationCommand;
 use Hautelook\AliceBundle\HautelookAliceBundle;
 use LogicException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -37,18 +41,10 @@ final class HautelookAliceExtension extends Extension
     {
         $bundles = array_flip($container->getParameter('kernel.bundles'));
 
-        if (false === array_key_exists('Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle', $bundles)) {
+        if (false === array_key_exists(FidryAliceDataFixturesBundle::class, $bundles)) {
             throw new LogicException(
                 sprintf(
                     'Cannot register "%s" without "Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle".',
-                    HautelookAliceBundle::class
-                )
-            );
-        }
-        if (false === array_key_exists('Doctrine\Bundle\DoctrineBundle\DoctrineBundle', $bundles)) {
-            throw new LogicException(
-                sprintf(
-                    'Cannot register "%s" without "Doctrine\Bundle\DoctrineBundle\DoctrineBundle".',
                     HautelookAliceBundle::class
                 )
             );
@@ -57,13 +53,22 @@ final class HautelookAliceExtension extends Extension
         $this->loadConfig($configs, $container);
         $this->loadServices($container);
 
+        if (false === array_key_exists('Doctrine\Bundle\DoctrineBundle\DoctrineBundle', $bundles)) {
+            $container->removeDefinition('hautelook_alice.console.command.doctrine.doctrine_orm_load_data_fixtures_command');
+
+            $definition = new Definition(DoctrineOrmMissingBundleInformationCommand::class);
+            $definition->addTag('console.command');
+            $definition->setPublic(true);
+            $container->setDefinition('hautelook_alice.console.command.doctrine.doctrine_orm_bundle_missing_command', $definition);
+        }
+
         // TODO: remove it in the future as we bump the minimal requirement of nelmio/alice
         // Register autoconfiguration rules for Symfony DI 3.3+
-        if (method_exists($container, 'registerForAutoconfiguration')) {
-            if ( 0 === count($container->findTaggedServiceIds('nelmio_alice.faker.provider')) ) {
-                $container->registerForAutoconfiguration(Base::class)
-                    ->addTag('nelmio_alice.faker.provider');
-            }
+        if (
+            method_exists($container, 'registerForAutoconfiguration') &&
+            0 === \count($container->findTaggedServiceIds('nelmio_alice.faker.provider'))
+        ) {
+            $container->registerForAutoconfiguration(Base::class)->addTag('nelmio_alice.faker.provider');
         }
     }
 
