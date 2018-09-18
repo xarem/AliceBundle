@@ -21,6 +21,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Tester\CommandTester;
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 
 /**
  * @coversNothing
@@ -52,7 +53,7 @@ class LoadDataFixturesCommandIntegrationTest extends TestCase
      */
     protected function setUp()
     {
-        if (false === class_exists('Doctrine\Bundle\DoctrineBundle\DoctrineBundle', true)) {
+        if (false === class_exists(DoctrineBundle::class, true)) {
             $this->markTestSkipped('DoctrineBundle is not installed.');
         }
 

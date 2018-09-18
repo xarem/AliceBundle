@@ -39,10 +39,10 @@
         "symfony/symfony": "^3.4"
     },
     "require-dev": {
-        "doctrine/common": "^2.7.2",
         "doctrine/data-fixtures": "^1.2",
         "doctrine/doctrine-bundle": "^1.8",
         "doctrine/orm": "^2.5.6",
+        "doctrine/persistence": "^1.0",
         "phpunit/phpunit": "^6.0",
         "phpspec/prophecy": "^1.7",
         "symfony/phpunit-bridge": "^3.3"
