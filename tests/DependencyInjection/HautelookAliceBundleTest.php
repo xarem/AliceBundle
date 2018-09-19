@@ -61,14 +61,6 @@ class HautelookAliceBundleTest extends TestCase
         $this->kernel->addBundle(new FidryAliceDataFixturesBundle());
         $this->kernel->addBundle(new NelmioAliceBundle());
         $this->kernel->boot();
-
-        // Commands
-        $this->assertInstanceOf(
-            \Hautelook\AliceBundle\Console\Command\Doctrine\DoctrineOrmMissingBundleInformationCommand::class,
-            $this->kernel->getContainer()->get('hautelook_alice.console.command.doctrine.doctrine_orm_bundle_missing_command')
-        );
-
-        $this->kernel->getContainer()->get('hautelook_alice.console.command.doctrine.doctrine_orm_load_data_fixtures_command');
     }
 
     public function testServiceRegistration()
