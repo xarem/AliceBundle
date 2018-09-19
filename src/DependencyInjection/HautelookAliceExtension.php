@@ -13,12 +13,10 @@ namespace Hautelook\AliceBundle\DependencyInjection;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle;
-use Hautelook\AliceBundle\Console\Command\Doctrine\DoctrineOrmMissingBundleInformationCommand;
 use Hautelook\AliceBundle\HautelookAliceBundle;
 use LogicException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -28,6 +26,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  *
  * @author Baldur Rensch <brensch@gmail.com>
  * @author Théo FIDRY <theo.fidry@gmail.com>
+ * @author Kévin Dunglas <dunglas@gmail.com>
  */
 final class HautelookAliceExtension extends Extension
 {
@@ -38,29 +37,24 @@ final class HautelookAliceExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $bundles = array_flip($container->getParameter('kernel.bundles'));
+        $missingBundles = [DoctrineBundle::class => true, FidryAliceDataFixturesBundle::class => true];
+        foreach ($container->getParameter('kernel.bundles') as $bundle) {
+            unset($missingBundles[$bundle]);
+            if (!$missingBundles) {
+                break;
+            }
+        }
 
-        if (false === array_key_exists(FidryAliceDataFixturesBundle::class, $bundles)) {
-            throw new LogicException(
-                sprintf(
-                    'Cannot register "%s" without "%s".',
-                    HautelookAliceBundle::class,
-                    FidryAliceDataFixturesBundle::class
-                )
-            );
+        if ($missingBundles) {
+            throw new LogicException(sprintf(
+                'To register "%s", you also need: "%s".',
+                HautelookAliceBundle::class,
+                implode('", "', array_keys($missingBundles))
+            ));
         }
 
         $this->loadConfig($configs, $container);
         $this->loadServices($container);
-
-        if (false === array_key_exists(DoctrineBundle::class, $bundles)) {
-            $container->removeDefinition('hautelook_alice.console.command.doctrine.doctrine_orm_load_data_fixtures_command');
-
-            $definition = new Definition(DoctrineOrmMissingBundleInformationCommand::class);
-            $definition->addTag('console.command');
-            $definition->setPublic(true);
-            $container->setDefinition('hautelook_alice.console.command.doctrine.doctrine_orm_bundle_missing_command', $definition);
-        }
     }
 
     /**

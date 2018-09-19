@@ -71,7 +71,7 @@ With [Symfony Flex](https://symfony.com/doc/current/setup/flex.html) (recommende
 # If you do not have Doctrine installed yet:
 composer require doctrine-orm
 
-composer require --dev hautelook/alice-bundle doctrine/data-fixtures
+composer require --dev hautelook/alice-bundle 
 ```
 
 Without Flex you will have to install `doctrine/orm` and register the bundles accordingly in `app/AppKernel.php` or

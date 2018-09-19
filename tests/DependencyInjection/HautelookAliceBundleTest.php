@@ -43,7 +43,7 @@ class HautelookAliceBundleTest extends TestCase
 
     /**
      * @expectedException \LogicException
-     * @expectedExceptionMessage Cannot register "Hautelook\AliceBundle\HautelookAliceBundle" without "Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle".
+     * @expectedExceptionMessage To register "Hautelook\AliceBundle\HautelookAliceBundle", you also need: "Doctrine\Bundle\DoctrineBundle\DoctrineBundle", "Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle".
      */
     public function testCannotBootIfFidryAliceDataFixturesBundleIsNotRegistered()
     {
@@ -52,8 +52,8 @@ class HautelookAliceBundleTest extends TestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
-     * @expectedExceptionMessageRegExp  /non-existent service/
+     * @expectedException \LogicException
+     * @expectedExceptionMessage To register "Hautelook\AliceBundle\HautelookAliceBundle", you also need: "Doctrine\Bundle\DoctrineBundle\DoctrineBundle".
      */
     public function testWillReplaceFixtureLoadCommandWithErrorInformationCommandIfDoctrineBundleIsNotRegistered()
     {
