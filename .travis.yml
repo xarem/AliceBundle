@@ -44,7 +44,7 @@ before_install:
   - set -eo pipefail
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - phpenv config-rm xdebug.ini || true
-  - if [ "$SYMFONY_VERSION" != "" ]; then composer global require --no-scripts symfony/flex; fi
+  - if [ "$SYMFONY_REQUIRE" != "" ]; then composer global require --no-scripts symfony/flex; fi
   - |
     if [ -n "$COVERAGE" ]; then
       PHPUNIT_FLAGS="$PHPUNIT_FLAGS --testdox --coverage-text"
