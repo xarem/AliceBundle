@@ -65,7 +65,7 @@ A lot of that complexity has been pushed back to nelmio/alice 3.x which has a mu
 
 ## Installation
 
-With Flex:
+With [Symfony Flex](https://symfony.com/doc/current/setup/flex.html) (recommended):
 
 ```
 # If you do not have Doctrine installed yet:
@@ -74,7 +74,7 @@ composer require doctrine-orm
 composer require --dev hautelook/alice-bundle doctrine/data-fixtures
 ```
 
-Without flex you will have to install `doctrine/orm` and register the bundles accordingly in `app/AppKernel.php` or
+Without Flex you will have to install `doctrine/orm` and register the bundles accordingly in `app/AppKernel.php` or
 wherever your Kernel class is located:
 
 ```php
@@ -130,7 +130,7 @@ Then create a fixture file in one of the following location:
 ```yaml
 # fixtures/dummy.yaml
 
-AppBundle\Entity\Dummy:
+App\Entity\Dummy:
     dummy_{1..10}:
         name: <name()>
         related_dummy: '@related_dummy*'
@@ -139,7 +139,7 @@ AppBundle\Entity\Dummy:
 ```yaml
 # fixtures/related_dummy.yaml
 
-AppBundle\Entity\RelatedDummy:
+App\Entity\RelatedDummy:
     related_dummy_{1..10}:
         name: <name()>
 ```
