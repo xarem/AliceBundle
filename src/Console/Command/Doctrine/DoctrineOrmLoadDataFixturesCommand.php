@@ -62,7 +62,7 @@ final class DoctrineOrmLoadDataFixturesCommand extends Command
             )
             ->addOption(
                 'manager',
-                'em',
+                'm',
                 InputOption::VALUE_REQUIRED,
                 'The entity manager to use for this command. If not specified, use the default Doctrine fixtures entity'
                 .'manager.'
