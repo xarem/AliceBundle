@@ -40,14 +40,16 @@ A lot of that complexity has been pushed back to nelmio/alice 3.x which has a mu
   it is the package you need. It provides you the flexibility to be able to purge the data between each loadings or
   wrap the loading in a transaction for your tests for example to simply rollback once the test is finished instead of
   calling an expansive purge.
-- hautelook/alice-bundle 2.x is now only focused on the fixture discovery: find the appropriate files and load them. If
-  you need to load specific sets of files for your tests, [FidryAliceDataFixtures](https://github.com/theofidry/AliceDataFixtures) is enough.
+- hautelook/alice-bundle 2.x provides high-level features including fixtures discovery (find the appropriate files and load them),
+  and helpers for database testing.
+  If you just need to load specific sets of files for your tests, [FidryAliceDataFixtures](https://github.com/theofidry/AliceDataFixtures) is enough.
 
 
 ## Documentation
 
 1. [Install](#installation)
 1. [Basic usage](#basic-usage)
+1. [Database testing](#database-testing)
 1. [Advanced usage](doc/advanced-usage.md)
     1. [Enabling databases](doc/advanced-usage.md#enabling-databases)
     1. [Environment specific fixtures](doc/advanced-usage.md#environment-specific-fixtures)
@@ -73,6 +75,8 @@ composer require doctrine-orm
 
 composer require --dev hautelook/alice-bundle 
 ```
+
+You're ready to use AliceBundle, and can jump to the next section!
 
 Without Flex you will have to install `doctrine/orm` and register the bundles accordingly in `app/AppKernel.php` or
 wherever your Kernel class is located:
@@ -151,6 +155,104 @@ If you want to load the fixtures of a bundle only, do `php bin/console hautelook
 [See more](#documentation).<br />
 Next chapter: [Advanced usage](doc/advanced-usage.md)
 
+
+## Database testing
+
+The bundle provides nice helpers, [inspired by Laravel](https://laravel.com/docs/5.6/database-testing#resetting-the-database-after-each-test),
+dedicated for database testing: `RefreshDatabaseTrait` and `ReloadDatabaseTrait`.
+These traits allow to easily reset the database in a known state before each PHPUnit test: it purges the database then loads
+the fixtures.
+
+They are particularly helpful when writing [functional tests](https://symfony.com/doc/current/testing.html#functional-tests)
+and when using [Panther](https://github.com/symfony/panther).
+
+To improve performance, `RefreshDatabaseTrait` populates the database only one time, then wraps every tests in a
+transaction that will be rolled back at the end after its execution (regardless of if it's a success or a failure):
+
+```php
+<?php
+
+namespace App\Tests;
+
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
+class NewsTest extends WebTestCase
+{
+    use RefreshDatabaseTrait;
+
+    public function postCommentTest()
+    {
+        $client = static::createClient(); // The transaction starts just after the boot of the Symfony kernel
+        $crawler = $client->request('GET', '/my-news');
+        $form = $crawler->filter('#post-comment')->form(['new-comment' => 'Symfony is so cool!']);
+        $client->submit($form);
+        // At the end of this test, the transaction will be rolled back (even if the test fails)
+    }
+}
+```
+
+Sometimes, wrapping tests in transactions is not possible. For instance, when using Panther, changes to the database
+are made by another PHP process, so it wont work.
+In such cases, use the `ReloadDatabase` trait. It will purge the DB and load fixtures before every tests:
+
+```php
+<?php
+
+namespace App\Tests;
+
+use Hautelook\AliceBundle\PhpUnit\ReloadDatabaseTrait;
+use Symfony\Component\Panther\PantherTestCase;
+
+class NewsTest extends PantherTestCase // Be sure to extends KernelTestCase, WebTestCase or PantherTestCase
+{
+    use ReloadDatabaseTrait;
+
+    public function postCommentTest()
+    {
+        $client = static::createPantherClient();// The database will be reset after every boot of the Symfony kernel
+
+        $crawler = $client->request('GET', '/my-news');
+        $form = $crawler->filter('#post-comment')->form(['new-comment' => 'Symfony is so cool!']);
+        $client->submit($form);
+    }
+}
+```
+
+This strategy doesn't work when using Panther, because the changes to the database are done by another process, outside
+of the transaction.
+
+Both traits provide several configuration options as protected static properties:
+
+* `self::$manager`: The name of the Doctrine manager to use
+* `self::$bundles`: The list of bundles where to look for fixtures
+* `self::$append`: Append fixtures instead of purging
+* `self::$purgeWithTruncate`: Use TRUNCATE to purge
+* `self::$shard`: The name of the Doctrine shard to use
+* `self::$connection`: The name of the Doctrine connection to use
+
+Use them in the `setUpBeforeClass` method.
+
+```php
+<?php
+
+namespace App\Tests;
+
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
+class NewsTest extends WebTestCase
+{
+    use RefreshDatabaseTrait;
+
+    public static function setUpBeforeClass()
+    {
+        self::$append = true;
+    }
+
+    // ...
+}
+```
 
 ## Resources
 
