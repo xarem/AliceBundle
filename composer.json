@@ -46,9 +46,6 @@
         "phpspec/prophecy": "^1.7",
         "symfony/phpunit-bridge": "^3.4 || ^4.0"
     },
-    "suggest": {
-        "theofidry/alice-bundle-extension": "Behat extension for HautelookAliceBundle"
-    },
 
     "extra": {
         "branch-alias": {
