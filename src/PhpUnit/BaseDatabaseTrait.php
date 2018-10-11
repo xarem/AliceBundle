@@ -49,6 +49,11 @@ trait BaseDatabaseTrait
      */
     protected static $connection;
 
+    /**
+     * @var array|null Contain loaded fixture from alice
+     */
+    protected static $fixtures;
+
     protected static function ensureKernelTestCase(): void
     {
         if (!is_a(static::class, KernelTestCase::class, true)) {
@@ -59,7 +64,7 @@ trait BaseDatabaseTrait
     protected static function populateDatabase(): void
     {
         $container = static::$container ?? static::$kernel->getContainer();
-        $container->get('hautelook_alice.loader')->load(
+        static::$fixtures = $container->get('hautelook_alice.loader')->load(
             new Application(static::$kernel), // OK this is ugly... But there is no other way without redesigning LoaderInterface from the ground.
             $container->get('doctrine')->getManager(static::$manager),
             static::$bundles,
