@@ -28,7 +28,7 @@ trait RefreshDatabaseTrait
     protected static function bootKernel(array $options = [])
     {
         static::ensureKernelTestCase();
-        parent::bootKernel($options);
+        $kernel = parent::bootKernel($options);
 
         if (!static::$dbPopulated) {
             static::populateDatabase();
@@ -37,6 +37,8 @@ trait RefreshDatabaseTrait
 
         $container = static::$container ?? static::$kernel->getContainer();
         $container->get('doctrine')->getConnection(static::$connection)->beginTransaction();
+
+        return $kernel;
     }
 
     protected static function ensureKernelShutdown()

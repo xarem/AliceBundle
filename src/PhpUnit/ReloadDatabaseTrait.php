@@ -25,7 +25,9 @@ trait ReloadDatabaseTrait
     protected static function bootKernel(array $options = [])
     {
         static::ensureKernelTestCase();
-        parent::bootKernel($options);
+        $kernel = parent::bootKernel($options);
         static::populateDatabase();
+
+        return $kernel;
     }
 }
