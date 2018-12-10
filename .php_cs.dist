@@ -12,11 +12,11 @@ file that was distributed with this source code.
 HEADER;
 
 $finder = PhpCsFixer\Finder::create()
-    ->in(__DIR__)
+    ->in(__DIR__.'/src')
+    ->in(__DIR__.'/tests')
+    ->in(__DIR__.'/fixtures')
     ->exclude('fixtures/Resolver/cache/')
     ->exclude('fixtures/Functional/cache/')
-    ->exclude('fixtures/Functional/cache/')
-    ->exclude('var/cache/')
 ;
 
 return PhpCsFixer\Config::create()
