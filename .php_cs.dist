@@ -16,6 +16,7 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('fixtures/Resolver/cache/')
     ->exclude('fixtures/Functional/cache/')
     ->exclude('fixtures/Functional/cache/')
+    ->exclude('var/cache/')
 ;
 
 return PhpCsFixer\Config::create()

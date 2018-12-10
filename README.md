@@ -159,7 +159,7 @@ Next chapter: [Advanced usage](doc/advanced-usage.md)
 ## Database testing
 
 The bundle provides nice helpers, [inspired by Laravel](https://laravel.com/docs/5.6/database-testing#resetting-the-database-after-each-test),
-dedicated for database testing: `RefreshDatabaseTrait` and `ReloadDatabaseTrait`.
+dedicated for database testing: `RefreshDatabaseTrait`, `ReloadDatabaseTrait` and `RecreateDatabaseTrait`.
 These traits allow to easily reset the database in a known state before each PHPUnit test: it purges the database then loads
 the fixtures.
 
@@ -249,6 +249,23 @@ class NewsTest extends WebTestCase
     {
         self::$append = true;
     }
+
+    // ...
+}
+```
+
+Finally, if you're using in memory SQLite for your tests, use `RecreateDatabaseTrait` to create the database schema "on the fly":
+```php
+<?php
+
+namespace App\Tests;
+
+use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
+class NewsTest extends WebTestCase
+{
+    use RecreateDatabaseTrait;
 
     // ...
 }
