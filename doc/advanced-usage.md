@@ -228,17 +228,10 @@ For it to work, we then need to decorate the loader getting the objects from the
 // config/services.yaml
 
 services:
-    # We re-declare the loader we want to override to give it a different name
-    acme.fidry_alice_data_fixtures.loader.simple:
-        class: Fidry\AliceDataFixtures\Loader\SimpleLoader
+    Acme\Alice\Loader\CustomOrderLoader:
+        decorates: 'fidry_alice_data_fixtures.loader.simple'
         arguments:
-            - '@nelmio_alice.files_loader'
-        
-    # We override the simple loader
-    fidry_alice_data_fixtures.loader.simple:
-        class: Acme\Alice\Loader\CustomOrderLoader
-        arguments:
-            - '@acme.fidry_alice_data_fixtures.loader.simple'
+            - '@Acme\Alice\Loader\CustomOrderLoader.inner'
 ```
 
 Done.
