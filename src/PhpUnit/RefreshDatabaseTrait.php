@@ -49,7 +49,10 @@ trait RefreshDatabaseTrait
         }
 
         if (null !== $container) {
-            $container->get('doctrine')->getConnection(static::$connection)->rollBack();
+            $connection = $container->get('doctrine')->getConnection(static::$connection);
+            if ($connection->isTransactionActive()) {
+                $connection->rollback();
+            }
         }
 
         parent::ensureKernelShutdown();
