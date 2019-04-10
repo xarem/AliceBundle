@@ -38,9 +38,11 @@ final class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('fixtures_path')
-                    ->defaultValue('Resources/fixtures')
+                ->arrayNode('fixtures_path')
                     ->info('Path to which to look for fixtures relative to the bundle/root directory paths.')
+                    ->beforeNormalization()->castToArray()->end()
+                    ->defaultValue(['Resources/fixtures'])
+                    ->scalarPrototype()->end()
                 ->end()
                 ->arrayNode('root_dirs')
                     ->info('List of root directories into which to look for the fixtures.')

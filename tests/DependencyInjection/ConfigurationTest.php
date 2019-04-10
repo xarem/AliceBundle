@@ -25,7 +25,7 @@ class ConfigurationTest extends TestCase
         $processor = new Processor();
 
         $expected = [
-            'fixtures_path' => 'Resources/fixtures',
+            'fixtures_path' => ['Resources/fixtures'],
             'root_dirs' => [
                 '%kernel.root_dir%',
                 '%kernel.project_dir%',
@@ -43,7 +43,34 @@ class ConfigurationTest extends TestCase
         $processor = new Processor();
 
         $expected = [
-            'fixtures_path' => '/Resources/path/to/fixtures',
+            'fixtures_path' => ['/Resources/path/to/fixtures'],
+            'root_dirs' => [
+                'my/root/dir',
+            ],
+        ];
+
+        $actual = $processor->processConfiguration(
+            $configuration,
+            [
+                'hautelook_alice' => [
+                    'fixtures_path' => ['/Resources/path/to/fixtures'],
+                    'root_dirs' => [
+                        'my/root/dir',
+                    ],
+                ],
+            ]
+        );
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testSingleFixturePathIsConvertedToArray()
+    {
+        $configuration = new Configuration();
+        $processor = new Processor();
+
+        $expected = [
+            'fixtures_path' => ['/Resources/path/to/fixtures'],
             'root_dirs' => [
                 'my/root/dir',
             ],

@@ -20,16 +20,16 @@ final class EnvDirectoryLocator implements FixtureLocatorInterface
 {
     use IsAServiceTrait;
 
-    private $fixturesPath;
+    private $fixturePaths;
     private $rootDirs;
 
     /**
-     * @param string   $fixturePath path to which to look for fixtures relative to the bundle/base directory paths
-     * @param string[] $rootDirs    root directories
+     * @param string[] $fixturePaths paths in which to look for fixtures relative to the bundle/base directory paths
+     * @param string[] $rootDirs     root directories
      */
-    public function __construct(string $fixturePath, array $rootDirs)
+    public function __construct(array $fixturePaths, array $rootDirs)
     {
-        $this->fixturesPath = $fixturePath;
+        $this->fixturePaths = $fixturePaths;
         $this->rootDirs = $rootDirs;
     }
 
@@ -70,25 +70,28 @@ final class EnvDirectoryLocator implements FixtureLocatorInterface
      */
     private function doLocateFiles(string $path, string $environment): array
     {
-        $path = '' !== $environment
-            ? sprintf('%s/%s/%s', $path, $this->fixturesPath, $environment)
-            : sprintf('%s/%s', $path, $this->fixturesPath)
-        ;
+        $fullPaths = array_filter(array_map(static function (string $fixturePath) use ($environment, $path): string {
+            return '' !== $environment
+                ? sprintf('%s/%s/%s', $path, $fixturePath, $environment)
+                : sprintf('%s/%s', $path, $fixturePath);
+        }, $this->fixturePaths), function ($fullPath) {
+            return $fullPath && file_exists($fullPath);
+        });
 
-        $path = realpath($path);
-
-        if (false === $path || false === file_exists($path)) {
+        if ([] === $fullPaths) {
             return [];
         }
 
-        $files = SymfonyFinder::create()->files()->in($path)->depth(0)->name('/.*\.(ya?ml|php)$/i');
+        $files = SymfonyFinder::create()->files()->in($fullPaths)->depth(0)->name('/.*\.(ya?ml|php)$/i');
 
-        // this sort helps to set an order with filename ( "001-root-level-fixtures.yml", "002-another-level-fixtures.yml", ... )
+        // this sort helps to set an order with filename
+        // ( "001-root-level-fixtures.yml", "002-another-level-fixtures.yml", ... )
         $files = $files->sort(function ($a, $b) {
             return strcasecmp($a, $b);
         });
 
         $fixtureFiles = [];
+
         foreach ($files as $file) {
             $fixtureFiles[$file->getRealPath()] = true;
         }
