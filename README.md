@@ -110,7 +110,7 @@ Configure the bundle to your needs, for example:
 # config/packages/dev/hautelook_alice.yaml
 
 hautelook_alice:
-    fixtures_path: 'fixtures' # Path to which to look for fixtures relative to the project directory or the bundle path.
+    fixtures_path: 'fixtures' # Path to which to look for fixtures relative to the project directory or the bundle path. May be a string or an array of strings.
     root_dirs:
         - '%kernel.root_dir%'
         - '%kernel.project_dir%'
