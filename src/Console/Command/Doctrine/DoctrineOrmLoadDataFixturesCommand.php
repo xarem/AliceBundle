@@ -26,7 +26,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 /**
  * Command used to load the fixtures.
  */
-final class DoctrineOrmLoadDataFixturesCommand extends Command
+class DoctrineOrmLoadDataFixturesCommand extends Command
 {
     /**
      * @var ManagerRegistry
