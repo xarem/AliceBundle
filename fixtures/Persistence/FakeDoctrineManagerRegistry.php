@@ -11,7 +11,7 @@
 
 namespace Hautelook\AliceBundle\Persistence;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Hautelook\AliceBundle\NotCallableTrait;
 
 /**

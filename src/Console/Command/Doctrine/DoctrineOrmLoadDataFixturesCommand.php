@@ -11,7 +11,7 @@
 
 namespace Hautelook\AliceBundle\Console\Command\Doctrine;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Hautelook\AliceBundle\LoaderInterface as AliceBundleLoaderInterface;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application as FrameworkBundleConsoleApplication;

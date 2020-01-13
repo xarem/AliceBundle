@@ -11,7 +11,7 @@
 
 namespace Hautelook\AliceBundle\Console\Command\Doctrine;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Hautelook\AliceBundle\HttpKernel\DummyKernel;
 use Hautelook\AliceBundle\Loader\FakeLoader;
 use Hautelook\AliceBundle\LoaderInterface;
