@@ -13,6 +13,7 @@ namespace Hautelook\AliceBundle\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * @covers \Hautelook\AliceBundle\DependencyInjection\Configuration
@@ -31,6 +32,15 @@ class ConfigurationTest extends TestCase
                 '%kernel.project_dir%',
             ],
         ];
+
+        if (Kernel::VERSION_ID >= 50000) {
+            $expected = [
+                'fixtures_path' => ['Resources/fixtures'],
+                'root_dirs' => [
+                    '%kernel.project_dir%',
+                ],
+            ];
+        }
 
         $actual = $processor->processConfiguration($configuration, []);
 
