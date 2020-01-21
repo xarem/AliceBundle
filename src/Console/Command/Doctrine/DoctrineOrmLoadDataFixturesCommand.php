@@ -12,6 +12,7 @@
 namespace Hautelook\AliceBundle\Console\Command\Doctrine;
 
 use Doctrine\Persistence\ManagerRegistry;
+use DomainException;
 use Hautelook\AliceBundle\LoaderInterface as AliceBundleLoaderInterface;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application as FrameworkBundleConsoleApplication;
@@ -59,6 +60,12 @@ class DoctrineOrmLoadDataFixturesCommand extends Command
                 'b',
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 'Bundles where fixtures should be loaded.'
+            )
+            ->addOption(
+                'no-bundles',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Fixtures from bundles will not be loaded.'
             )
             ->addOption(
                 'manager',
@@ -125,16 +132,35 @@ class DoctrineOrmLoadDataFixturesCommand extends Command
             }
         }
 
+        $noBundles = $input->getParameterOption('--no-bundles') ?? true;
+        if (!$noBundles) {
+            @trigger_error(
+                'The configuration parameter hautelook.root_dirs should be used to specify the directories to include. If done or if you do not need to load bundle\'s fixtures, use the --no-bundles option',
+                E_USER_DEPRECATED
+            );
+        }
+
+        $bundles = $input->getOption('bundle');
+        if ($bundles) {
+            @trigger_error(
+                'The option --bundle is deprecated. Use the configuration parameter hautelook.root_dirs to include the desired directories instead',
+                E_USER_DEPRECATED
+            );
+        }
+
+        if ($bundles && $noBundles) {
+            throw new DomainException('--bundle and --no-bundles flags cannot be specified both in same time.');
+        }
+
         $manager = $this->doctrine->getManager($input->getOption('manager'));
         $environment = $input->getOption('env');
-        $bundles = $input->getOption('bundle');
         $shard = $input->getOption('shard');
         $append = $input->getOption('append');
         $truncate = $input->getOption('purge-with-truncate');
         /** @var FrameworkBundleConsoleApplication $application */
         $application = $this->getApplication();
 
-        $this->loader->load($application, $manager, $bundles, $environment, $append, $truncate, $shard);
+        $this->loader->load($application, $manager, $bundles, $environment, $append, $truncate, $shard, $noBundles);
 
         return 0;
     }

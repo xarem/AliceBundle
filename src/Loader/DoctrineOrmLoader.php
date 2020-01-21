@@ -98,7 +98,8 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
         string $environment,
         bool $append,
         bool $purgeWithTruncate,
-        string $shard = null
+        string $shard = null,
+        bool $noBundles = false
     ) {
         if ($append && $purgeWithTruncate) {
             throw new LogicException(
@@ -106,7 +107,10 @@ final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAware
             );
         }
 
-        $bundles = $this->bundleResolver->resolveBundles($application, $bundles);
+        if (!$noBundles) {
+            $bundles = $this->bundleResolver->resolveBundles($application, $bundles);
+        }
+
         $fixtureFiles = $this->fixtureLocator->locateFiles($bundles, $environment);
 
         $this->logger->info('fixtures found', ['files' => $fixtureFiles]);

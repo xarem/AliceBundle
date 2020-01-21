@@ -17,6 +17,11 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 interface LoaderInterface
 {
     /**
+     * TODO: make `$noBundles = true` by default in 3.x.
+     *  Accept the option nonetheless to ease the upgrade but add a deprecation notice
+     *  to say this option is no longer necessary and later will be removed.
+     *
+     *
      * Loads the specified fixtures of an application.
      *
      * @param Application            $application Application the fixtures are loaded from
@@ -25,6 +30,7 @@ interface LoaderInterface
      * @param string                 $environment If set filter the fixtures by the environment given
      * @param bool                   $append      If true, then the database is not purged before loading the objects
      * @param string|null            $shard       Shard connection name to use
+     * @param bool                   $noBundles   If true, then fixtures from other bundles will not be loaded
      *
      * @return object[] Loaded objects
      */
@@ -35,6 +41,7 @@ interface LoaderInterface
         string $environment,
         bool $append,
         bool $purgeWithTruncate,
-        string $shard = null
+        string $shard = null,
+        bool $noBundles = false
     );
 }

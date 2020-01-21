@@ -12,6 +12,7 @@
 namespace Hautelook\AliceBundle\Console\Command\Doctrine;
 
 use Doctrine\Persistence\ManagerRegistry;
+use DomainException;
 use Hautelook\AliceBundle\HttpKernel\DummyKernel;
 use Hautelook\AliceBundle\Loader\FakeLoader;
 use Hautelook\AliceBundle\LoaderInterface;
@@ -28,6 +29,7 @@ use Symfony\Component\Console\Output\NullOutput;
 
 /**
  * @covers \Hautelook\AliceBundle\Console\Command\Doctrine\DoctrineOrmLoadDataFixturesCommand
+ * @group legacy
  */
 class LoadDataFixturesCommandTest extends TestCase
 {
@@ -63,6 +65,9 @@ class LoadDataFixturesCommandTest extends TestCase
         $command->setApplication(new ConsoleApplication());
     }
 
+    /**
+     * @group legacy
+     */
     public function testCallCommandWithoutArguments()
     {
         $application = new FrameworkBundleConsoleApplication(new DummyKernel());
@@ -82,7 +87,7 @@ class LoadDataFixturesCommandTest extends TestCase
         /** @var LoaderInterface|ObjectProphecy $loaderProphecy */
         $loaderProphecy = $this->prophesize(LoaderInterface::class);
         $loaderProphecy
-            ->load($application, $manager, [], 'fake_env', false, false, null)
+            ->load($application, $manager, [], 'fake_env', false, false, null, false)
             ->shouldBeCalled()
         ;
         /** @var LoaderInterface $loader */
@@ -125,7 +130,7 @@ class LoadDataFixturesCommandTest extends TestCase
         /** @var LoaderInterface|ObjectProphecy $loaderProphecy */
         $loaderProphecy = $this->prophesize(LoaderInterface::class);
         $loaderProphecy
-            ->load($application, $manager, ['ABundle', 'BBundle'], 'dummy_env', true, true, 'shard_id')
+            ->load($application, $manager, ['ABundle', 'BBundle'], 'dummy_env', true, true, 'shard_id', false)
             ->shouldBeCalled();
 
         /** @var LoaderInterface $loader */
@@ -138,5 +143,55 @@ class LoadDataFixturesCommandTest extends TestCase
         $this->assertEquals(0, $exit);
         $loaderProphecy->load(Argument::cetera())->shouldHaveBeenCalledTimes(1);
         $managerRegistryProphecy->getManager(Argument::any())->shouldHaveBeenCalledTimes(1);
+    }
+
+    public function testCallCommandWithBundleAndNoBundlesFlags()
+    {
+        $application = new FrameworkBundleConsoleApplication(new DummyKernel());
+        $application->setAutoExit(false);
+
+        $input = new ArrayInput([
+            'command' => 'hautelook:fixtures:load',
+            '--manager' => 'DummyManager',
+            '--env' => 'dummy_env',
+            '--bundle' => [
+                'ABundle',
+                'BBundle',
+            ],
+            '--shard' => 'shard_id',
+            '--append' => null,
+            '--purge-with-truncate' => null,
+            '--no-bundles',
+        ]);
+        $input->setInteractive(false);
+
+        /** @var ManagerRegistry|ObjectProphecy $managerRegistryProphecy */
+        $managerRegistryProphecy = $this->prophesize(ManagerRegistry::class);
+        $managerRegistryProphecy->getManager('DummyManager')->willReturn($manager = new FakeEntityManager());
+        /** @var ManagerRegistry $managerRegistry */
+        $managerRegistry = $managerRegistryProphecy->reveal();
+
+        /** @var LoaderInterface|ObjectProphecy $loaderProphecy */
+        $loaderProphecy = $this->prophesize(LoaderInterface::class);
+        $loaderProphecy
+            ->load($application, $manager, ['ABundle', 'BBundle'], 'dummy_env', true, true, 'shard_id', true)
+            ->shouldBeCalledTimes(0);
+
+        /** @var LoaderInterface $loader */
+        $loader = $loaderProphecy->reveal();
+
+        $command = new DoctrineOrmLoadDataFixturesCommand('dummy', $managerRegistry, $loader);
+        $command->setApplication($application);
+
+        try {
+            $command->run($input, new NullOutput());
+
+            $this->fail();
+        } catch (DomainException $exception) {
+            $this->assertSame(
+                '--bundle and --no-bundles flags cannot be specified both in same time.',
+                $exception->getMessage()
+            );
+        }
     }
 }
