@@ -105,7 +105,7 @@ factories](https://github.com/nelmio/alice/blob/master/doc/complete-reference.md
 
 AppBundle\Entity\Dummy:
     dummy_0:
-        __construct: { '@dummy_factory::create': ['<username()>'] }
+        __factory: { '@dummy_factory::create': ['<username()>'] }
 ```
 
 
