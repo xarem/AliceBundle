@@ -29,7 +29,7 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
-final class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAwareInterface
+class DoctrineOrmLoader implements AliceBundleLoaderInterface, LoggerAwareInterface
 {
     use IsAServiceTrait;
 
