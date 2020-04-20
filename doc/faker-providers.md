@@ -18,16 +18,7 @@ class FooProvider
 }
 ```
 
-Then declare it as a service with the `nelmio_alice.faker.provider` tag unless you have `autoconfigure` enabled:
-
-```yaml
-# config/services.yaml
-
-services:
-    AppBundle\DataFixtures\Faker\Provider\FooProvider: ~
-```
-
-Without `autoconfigure`:
+Then declare it as a service with the `nelmio_alice.faker.provider` tag:
 
 ```yaml
 # config/services.yaml
@@ -35,6 +26,15 @@ Without `autoconfigure`:
 services:
     AppBundle\DataFixtures\Faker\Provider\FooProvider:
         tags: [ { name: nelmio_alice.faker.provider } ]
+```
+
+If `autoconfigure` is enabled, you can omit the tag as long as your provider extends `Faker\Provider\Base`:
+
+```yaml
+# config/services.yaml
+
+services:
+    AppBundle\DataFixtures\Faker\Provider\FooProvider: ~
 ```
 
 That's it! You can now use it in your fixtures:
