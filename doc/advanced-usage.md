@@ -21,17 +21,16 @@ to this library documentation for a complete reference.
 
 If you wish to use different fixtures depending of the environment, you can easily organise your fixtures the following way:
 
-```
-.
-└── fixtures/ or app/Resources/fixtures/
+```.
+└── fixtures
     ├── environmentless-fixture1.yml
     ├── ...
-    ├── inte
-    |   ├── prod-fixture1.yml
-    |   ├── ...
-    └─── dev
-            ├── dev-fixture1.yml
-            └── ...
+    ├── dev
+    │   ├── dev-fixture1.yml
+    │   └── ...
+    └── inte
+        ├── prod-fixture1.yml
+        └── ...
 ```
 
 Then, when you're running the command `php app/console hautelook:fixtures:load --env=inte`, it will load all the
