@@ -30,6 +30,11 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 class DoctrineOrmLoadDataFixturesCommand extends Command
 {
     /**
+     * @var string
+     */
+    protected static $defaultName = 'hautelook:fixtures:load';
+
+    /**
      * @var ManagerRegistry
      */
     private $doctrine;
@@ -53,7 +58,7 @@ class DoctrineOrmLoadDataFixturesCommand extends Command
     protected function configure()
     {
         $this
-            ->setAliases(['hautelook:fixtures:load'])
+            ->setAliases([self::$defaultName])
             ->setDescription('Load data fixtures to your database.')
             ->addOption(
                 'bundle',
