@@ -60,7 +60,6 @@ final class HautelookAliceExtension extends Extension
     /**
      * Loads alice configuration and add the configuration values to the application parameters.
      *
-     *
      * @throws \InvalidArgumentException
      * @throws \Exception
      */

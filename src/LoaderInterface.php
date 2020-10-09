@@ -21,7 +21,6 @@ interface LoaderInterface
      *  Accept the option nonetheless to ease the upgrade but add a deprecation notice
      *  to say this option is no longer necessary and later will be removed.
      *
-     *
      * Loads the specified fixtures of an application.
      *
      * @param Application            $application Application the fixtures are loaded from

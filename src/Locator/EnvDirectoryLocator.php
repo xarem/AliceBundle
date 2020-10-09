@@ -65,7 +65,6 @@ final class EnvDirectoryLocator implements FixtureLocatorInterface
     /**
      * Gets the list of files that can be found in the given path.
      *
-     *
      * @return string[]
      */
     private function doLocateFiles(string $path, string $environment): array
