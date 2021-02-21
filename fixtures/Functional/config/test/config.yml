@@ -4,6 +4,8 @@ parameters:
 framework:
     secret: test
     test: ~
+    annotations:
+        cache: file
 
 services:
     data_fixtures.faker.provider.foo:
