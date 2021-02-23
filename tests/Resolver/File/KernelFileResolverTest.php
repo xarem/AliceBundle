@@ -32,7 +32,7 @@ class KernelFileResolverTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         if (null !== $this->kernel) {
             $this->kernel->shutdown();

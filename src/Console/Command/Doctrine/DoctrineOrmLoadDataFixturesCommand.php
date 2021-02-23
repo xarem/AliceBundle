@@ -141,7 +141,7 @@ class DoctrineOrmLoadDataFixturesCommand extends Command
         if (!$noBundles) {
             @trigger_error(
                 'The configuration parameter hautelook_alice.root_dirs should be used to specify the directories to include. If done or if you do not need to load bundle\'s fixtures, use the --no-bundles option',
-                E_USER_DEPRECATED
+                \E_USER_DEPRECATED
             );
         }
 
@@ -149,7 +149,7 @@ class DoctrineOrmLoadDataFixturesCommand extends Command
         if ($bundles) {
             @trigger_error(
                 'The option --bundle is deprecated. Use the configuration parameter hautelook_alice.root_dirs to include the desired directories instead',
-                E_USER_DEPRECATED
+                \E_USER_DEPRECATED
             );
         }
 

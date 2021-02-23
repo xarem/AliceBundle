@@ -20,6 +20,6 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  */
 class ReloadDatabaseTraitTest extends KernelTestCase
 {
-    use ReloadDatabaseTrait;
     use RefreshTestTrait;
+    use ReloadDatabaseTrait;
 }
